@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Study app</string>
+    <string name="app_name">StudyApp</string>
+    <string name="entry_wordbook">WordBook遷移</string>
+    <string name="entry_calendar">Calenadar遷移</string>
+    <string name="entry_todo">Todo遷移</string>
+    <string name="wordbook_home">Home</string>
 </resources>
