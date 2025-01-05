@@ -2,6 +2,8 @@
     <string name="app_name">StudyApp</string>
     <string name="entry_wordbook">WordBook遷移</string>
     <string name="entry_calendar">Calenadar遷移</string>
+    <string name="entry_account">Account遷移</string>
+    <string name="entry_settings">Settings遷移</string>
     <string name="entry_todo">Todo遷移</string>
     <string name="wordbook_home">Home</string>
 </resources>

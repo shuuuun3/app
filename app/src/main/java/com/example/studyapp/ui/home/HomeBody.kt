@@ -1,6 +1,5 @@
 package com.example.studyapp.ui.home
 
-import android.content.ClipData
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,18 +9,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.studyapp.R
 import com.example.studyapp.ui.AccountTopBar
+import com.example.studyapp.ui.OutlinedButton
 import com.example.studyapp.ui.navigation.NavigationDestination
 
 object HomeDestinations : NavigationDestination {
@@ -31,7 +28,6 @@ object HomeDestinations : NavigationDestination {
 
 @Composable
 fun HomeBody(
-    modifier: Modifier = Modifier,
     userName: String = "Shunsuke",
     navigateToWordBook: () -> Unit = {},
     navigateToTodo: () -> Unit = {}
@@ -48,7 +44,7 @@ fun HomeBody(
                 modifier = Modifier
                     .padding(32.dp)
             )
-            //functionsBlock
+            //functionsBlock↓
             Row() {
                 Spacer(modifier = Modifier.weight(1f))
                 ToFunctionItem(
@@ -79,6 +75,13 @@ fun HomeBody(
                     iconPath = R.drawable.graph
                 )
                 Spacer(modifier = Modifier.weight(1f))
+            }
+            Spacer(modifier = Modifier.padding(top = 200.dp))
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment =  Alignment.CenterHorizontally
+            ) {
+                OutlinedButton(text = "Quick Start")
             }
         }
     }
