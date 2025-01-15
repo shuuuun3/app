@@ -1,6 +1,6 @@
 package com.example.studyapp.ui
 
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -56,12 +56,6 @@ fun TabBar(
         "Account",
         "Settings"
     )
-    /*val navigateToFunctionsList = listOf(
-        navigateToHome,
-        navigateToCalendar,
-        navigateToAccount,
-        navigateToSettings
-    )*/
 
     Box(
         modifier = Modifier
@@ -80,18 +74,20 @@ fun TabBar(
             repeat(4) { index ->
                 Box(
                     modifier = Modifier
-                        .width(if (index == selectedIndex) selectedBoxWidth else boxWidth)
+                        .width(
+                            animateDpAsState(
+                                targetValue = if (selectedIndex == index) selectedBoxWidth else boxWidth,
+                                animationSpec = tween(durationMillis = 300),
+                                label = "animateWidth"
+                            ).value
+                        )
                         .height(55.dp)
                         .clip(RoundedCornerShape(100))
                         .background(Color(if (index == selectedIndex) 0xff6495ED else 0xff323232))
                         .clickable {
                             selectedIndex = index
-                            onSelectedIndexChanged(index)
+                            onSelectedIndexChanged(selectedIndex)
                         }
-                        //アニメーションが適用されない *要改善
-                        .animateContentSize(
-                            animationSpec = tween(durationMillis = 300),
-                        )
                 ) {
                     Row(
                         modifier = Modifier
@@ -103,13 +99,14 @@ fun TabBar(
                             painter = painterResource(id = tabIconList[index]),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(tintColor),
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(22.dp)
                         )
                         if (selectedIndex == index) {
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
                                 tabTextList[index],
                                 fontSize = 15.sp,
+                                softWrap = false
                             )
                         }
                     }

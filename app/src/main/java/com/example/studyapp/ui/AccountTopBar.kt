@@ -75,9 +75,9 @@ fun AccountTopBar(
                 Spacer(modifier = Modifier.weight(1f))
                 Box(
                     modifier = Modifier
+                        .clickable { /*通知表示*/ }
                         .size(50.dp)
-                        .background(Color(0xff313142), shape = CircleShape)
-                        .clickable { /*通知表示*/ },
+                        .background(Color(0xff313142), shape = CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Image(

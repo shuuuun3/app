@@ -5,5 +5,7 @@
     <string name="entry_account">Account遷移</string>
     <string name="entry_settings">Settings遷移</string>
     <string name="entry_todo">Todo遷移</string>
+    <string name="entry_graph">Graph遷移</string>
+    <string name="entry_addStudy">AddStudy遷移</string>
     <string name="wordbook_home">Home</string>
 </resources>

@@ -16,16 +16,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.studyapp.ui.TabBar
-import com.example.studyapp.ui.functions.AccountDestinations
-import com.example.studyapp.ui.functions.AccountScreen
-import com.example.studyapp.ui.functions.CalendarDestinations
-import com.example.studyapp.ui.functions.CalendarScreen
-import com.example.studyapp.ui.functions.SettingsDestinations
-import com.example.studyapp.ui.functions.SettingsScreen
-import com.example.studyapp.ui.functions.TodoDestinations
-import com.example.studyapp.ui.functions.TodoScreen
-import com.example.studyapp.ui.functions.WordBookDestinations
-import com.example.studyapp.ui.functions.WordBookScreen
+import com.example.studyapp.ui.functions.account.AccountDestinations
+import com.example.studyapp.ui.functions.account.AccountScreen
+import com.example.studyapp.ui.functions.addstudy.AddStudyDestinations
+import com.example.studyapp.ui.functions.addstudy.AddStudyScreen
+import com.example.studyapp.ui.functions.calendar.CalendarDestinations
+import com.example.studyapp.ui.functions.calendar.CalendarScreen
+import com.example.studyapp.ui.functions.graph.GraphDestinations
+import com.example.studyapp.ui.functions.graph.GraphScreen
+import com.example.studyapp.ui.functions.settings.SettingsDestinations
+import com.example.studyapp.ui.functions.settings.SettingsScreen
+import com.example.studyapp.ui.functions.todo.TodoDestinations
+import com.example.studyapp.ui.functions.todo.TodoScreen
+import com.example.studyapp.ui.functions.wordbook.WordBookDestinations
+import com.example.studyapp.ui.functions.wordbook.WordBookScreen
 import com.example.studyapp.ui.home.HomeBody
 import com.example.studyapp.ui.home.HomeDestinations
 
@@ -49,6 +53,10 @@ fun HomeNavHost(
                         navController.navigate(WordBookDestinations.route)
                     }, navigateToTodo = {
                         navController.navigate(TodoDestinations.route)
+                    }, navigateToGraph = {
+                        navController.navigate(GraphDestinations.route)
+                    }, navigateToAddStudy = {
+                        navController.navigate(AddStudyDestinations.route)
                     })
                 }
 
@@ -70,6 +78,14 @@ fun HomeNavHost(
 
                 composable(route = SettingsDestinations.route) {
                     SettingsScreen()
+                }
+
+                composable(route = GraphDestinations.route) {
+                    GraphScreen()
+                }
+
+                composable(route = AddStudyDestinations.route) {
+                    AddStudyScreen()
                 }
             }
             Spacer(modifier = Modifier.weight(1f))

@@ -30,7 +30,9 @@ object HomeDestinations : NavigationDestination {
 fun HomeBody(
     userName: String = "Shunsuke",
     navigateToWordBook: () -> Unit = {},
-    navigateToTodo: () -> Unit = {}
+    navigateToGraph: () -> Unit = {},
+    navigateToTodo: () -> Unit = {},
+    navigateToAddStudy: () -> Unit = {}
 ) {
     Box() {
         Column(modifier = Modifier.background(Color(0xFF101010))) {
@@ -55,7 +57,8 @@ fun HomeBody(
                 Spacer(modifier = Modifier.weight(1f))
                 ToFunctionItem(
                     title = "Graph",
-                    iconPath = R.drawable.graph
+                    iconPath = R.drawable.graph,
+                    navigateToFunction = navigateToGraph
                 )
                 Spacer(modifier = Modifier.weight(1f))
             }
@@ -71,8 +74,9 @@ fun HomeBody(
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 ToFunctionItem(
-                    title = "Graph",
-                    iconPath = R.drawable.graph
+                    title = "Add Study",
+                    iconPath = R.drawable.home_item_addstudy,
+                    navigateToFunction = navigateToAddStudy
                 )
                 Spacer(modifier = Modifier.weight(1f))
             }

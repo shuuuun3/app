@@ -1,4 +1,4 @@
-package com.example.studyapp.ui.functions
+package com.example.studyapp.ui.functions.todo
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

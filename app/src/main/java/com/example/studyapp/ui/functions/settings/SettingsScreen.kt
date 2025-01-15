@@ -1,4 +1,4 @@
-package com.example.studyapp.ui.functions
+package com.example.studyapp.ui.functions.settings
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -9,20 +9,20 @@ import androidx.compose.ui.unit.dp
 import com.example.studyapp.R
 import com.example.studyapp.ui.navigation.NavigationDestination
 
-object CalendarDestinations : NavigationDestination {
-    override val route = "calendar"
-    override val titleRes = R.string.entry_calendar
+object SettingsDestinations : NavigationDestination {
+    override val route = "settings"
+    override val titleRes = R.string.entry_settings
 }
 
 @Composable
-fun CalendarScreen(
+fun SettingsScreen(
     modifier: Modifier = Modifier
 ) {
-    Text(text = "Calendar")
+    Text(text = "Settings")
 }
 
 @Preview
 @Composable
-private fun CalendarScreenPreview() {
-    CalendarScreen(modifier = Modifier.padding(top = 0.dp))
+private fun SettingsScreenPreview() {
+    SettingsScreen(modifier = Modifier.padding(top = 0.dp))
 }

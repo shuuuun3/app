@@ -1,4 +1,4 @@
-package com.example.studyapp.ui.functions
+package com.example.studyapp.ui.functions.addstudy
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -9,20 +9,20 @@ import androidx.compose.ui.unit.dp
 import com.example.studyapp.R
 import com.example.studyapp.ui.navigation.NavigationDestination
 
-object SettingsDestinations : NavigationDestination {
-    override val route = "settings"
-    override val titleRes = R.string.entry_settings
+object AddStudyDestinations : NavigationDestination {
+    override val route = "addStudy"
+    override val titleRes = R.string.entry_addStudy
 }
 
 @Composable
-fun SettingsScreen(
+fun AddStudyScreen(
     modifier: Modifier = Modifier
 ) {
-    Text(text = "Settings")
+    Text(text = "AddStudy")
 }
 
 @Preview
 @Composable
-private fun SettingsScreenPreview() {
-    SettingsScreen(modifier = Modifier.padding(top = 0.dp))
+private fun AddStudyScreenPreview() {
+    AddStudyScreen(modifier = Modifier.padding(top = 0.dp))
 }

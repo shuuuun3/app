@@ -1,11 +1,8 @@
-package com.example.studyapp.ui.functions
+package com.example.studyapp.ui.functions.account
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.studyapp.R
 import com.example.studyapp.ui.navigation.NavigationDestination
 
@@ -15,14 +12,12 @@ object AccountDestinations : NavigationDestination {
 }
 
 @Composable
-fun AccountScreen(
-    modifier: Modifier = Modifier
-) {
+fun AccountScreen() {
     Text(text = "Account")
 }
 
 @Preview
 @Composable
 private fun AccountScreenPreview() {
-    AccountScreen(modifier = Modifier.padding(top = 0.dp))
+    AccountScreen()
 }

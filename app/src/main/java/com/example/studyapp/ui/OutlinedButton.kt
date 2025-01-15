@@ -32,15 +32,15 @@ fun OutlinedButton(
 ) {
     Box(
         modifier = modifier
-            .clickable { onClick() }
             .size(width = buttonWidth.dp, height = buttonHeight.dp)
-            .clip(shape = RoundedCornerShape(100))
             .background(Color.Transparent)
             .border(
                 width = 1.dp,
                 color = colorResource(id = R.color.button_blue),
                 shape = RoundedCornerShape(100)
-            ),
+            )
+            .clip(shape = RoundedCornerShape(100))
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Text(
