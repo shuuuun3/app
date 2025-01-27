@@ -28,8 +28,8 @@ import com.example.studyapp.ui.theme.StudyAppTheme
 fun WordBookSmallButton(
     imageId : Int,
     text: String,
-    width: Int = 90,
-    height: Int = 40,
+    width: Int = 75,
+    height: Int = 32,
     onClick: () -> Unit = {}
 ) {
     StudyAppTheme {
@@ -50,13 +50,13 @@ fun WordBookSmallButton(
                     painter = painterResource(id = imageId),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(20.dp)
+                        .size(17.dp)
                         .align(Alignment.CenterVertically)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = text,
-                    fontSize = 18.sp,
+                    fontSize = 13.sp,
                     color = Color.White
                 )
             }

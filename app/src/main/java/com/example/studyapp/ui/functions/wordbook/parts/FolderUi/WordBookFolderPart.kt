@@ -1,4 +1,4 @@
-package com.example.studyapp.ui.functions.wordbook.parts
+package com.example.studyapp.ui.functions.wordbook.parts.FolderUi
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,11 +20,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyapp.R
+import com.example.studyapp.ui.functions.wordbook.parts.WordBookSmallButton
 import com.example.studyapp.ui.theme.StudyAppTheme
 
-
 @Composable
-fun WordBookFilePart() {
+fun WordBookFolderPart() {
     StudyAppTheme {
         Box(
             modifier = Modifier
@@ -42,7 +41,7 @@ fun WordBookFilePart() {
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = "wordbook",
+                        text = "folder",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
@@ -51,21 +50,14 @@ fun WordBookFilePart() {
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     WordBookSmallButton(
-                        text = "select",
-                        imageId = R.drawable.select,
-                        width = 100
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    WordBookSmallButton(
                         text = "add",
                         imageId = R.drawable.add
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Column {
-                    WordBookFileItem(title = "leap 1001-1100", value = 1)
-                    WordBookFileItem(title = "ホルモン", value = 1, folderColor = Color(0xff84FF88))
-                    WordBookFileItem(title = "古文単語", value = 1, folderColor = Color(0xffF7FF81))
+                    WordBookFolderItem(title = "中間考査", value = 1)
+                    WordBookFolderItem(title = "期末考査", value = 1, folderColor = Color(0xffFF8E0D))
                 }
             }
         }
@@ -74,6 +66,6 @@ fun WordBookFilePart() {
 
 @Preview
 @Composable
-private fun WordBookFilePartPreview() {
-    WordBookFilePart()
+private fun WordBookFolderPartPreview() {
+    WordBookFolderPart()
 }

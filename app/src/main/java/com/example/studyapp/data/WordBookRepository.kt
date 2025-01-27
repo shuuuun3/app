@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface WordBookRepository {
     fun getAllVocabularies(): Flow<List<VocabularyEntity>>
-    fun getQuestionWithAnswers(questionId: Int): Flow<QuestionWithAnswers>
+    fun getQuestionWithAnswers(questionId: Int): Flow<List<QuestionWithAnswers>>
     suspend fun insertVocabulary(vocabulary: VocabularyEntity)
     suspend fun deleteVocabulary(vocabulary: VocabularyEntity)
     suspend fun updateVocabulary(vocabulary: VocabularyEntity)

@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [QuestionEntity::class, PairAnswerEntity::class, CompletionAnswerEntity::class, ChoiceAnswerEntity::class], version = 1, exportSchema = false)
+@Database(entities = [VocabularyEntity::class, QuestionEntity::class, PairAnswerEntity::class, CompletionAnswerEntity::class, ChoiceAnswerEntity::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class WordBookDatabase : RoomDatabase() {
     abstract val wordBookDao: WordBookDao
@@ -17,13 +17,11 @@ abstract class WordBookDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context): WordBookDatabase {
             return Instance ?: synchronized(this) {
-                return Instance ?: synchronized(this) {
-                    Room.databaseBuilder(
-                        context,
-                        WordBookDatabase::class.java,
-                        "wordbook_database"
-                    ).build().also { Instance = it }
-                }
+                Room.databaseBuilder(
+                    context,
+                    WordBookDatabase::class.java,
+                    "wordbook_database"
+                ).build().also { Instance = it }
             }
         }
     }

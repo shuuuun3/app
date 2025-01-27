@@ -122,49 +122,92 @@ private fun TopAppBarDefaultsPreview() {
     TopAppBarDefaults(canNavigateBack = true)
 }
 
-/*
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarDefaults(
-    title: String,
-    modifier: Modifier = Modifier,
-    scrollBehavior: TopAppBarScrollBehavior? = null,
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit = {}
+fun TopAppBarVocabulary(
+    title: String = "Vocabulary",
+    canNavigateBack: Boolean = false,
+    navigateBack: () -> Unit = {}
 ) {
-    TopAppBar(
-        title = { Text(text = title) },
-        modifier = modifier,
-        scrollBehavior = scrollBehavior,
-        navigationIcon = {
-            if (canNavigateBack) {
-                IconButton(onClick = navigateUp) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
+    StudyAppTheme () {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.Center)
+            ) {
+                if (canNavigateBack) {
+                    IconButton(onClick = navigateBack) {
+                        Icon(imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "null",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+                Text(
+                    text = title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .padding(start = 20.dp),
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .width(180.dp)
+                        .padding(end = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.topappbar_search),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .size(30.dp)
+                            .clickable { }
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.filtetlist),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .size(30.dp)
+                            .clickable { }
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.topappbar_sort),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .size(30.dp)
+                            .clickable { }
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.topappbar_more),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .size(30.dp)
+                            .clickable { }
+                    )
                 }
             }
-        },
-        actions = {
-            IconButton(onClick = { */
-/*TODO*//*
- }) {
-                Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")
-            }
-            IconButton(onClick = { */
-/*TODO*//*
- }) {
-                Icon(imageVector = Icons.Filled.MoreVert, contentDescription = "MoreVert")
-            }
         }
-    )
+    }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, backgroundColor = 0xff101010)
 @Composable
-private fun TopAppBarDefaultsPreview() {
-    TopAppBarDefaults(
-        title = "WordBook",
-        canNavigateBack = false,
-        navigateUp = {}
-    )
-}*/
+private fun TopAppBarVocabularyPreview() {
+    TopAppBarVocabulary(canNavigateBack = true, title = "Vocabulary")
+}

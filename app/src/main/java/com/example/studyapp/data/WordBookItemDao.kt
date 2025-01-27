@@ -22,7 +22,7 @@ interface WordBookDao {
     //質問と答えを取得
     @Transaction
     @Query("SELECT * FROM questions WHERE questionId = :id")
-    suspend fun getQuestionWithAnswers(id: Int): QuestionWithAnswers
+    suspend fun getQuestionWithAnswers(id: Int): List<QuestionWithAnswers>
 
     // 単語帳を追加
     @Insert(onConflict = OnConflictStrategy.REPLACE)

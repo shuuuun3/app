@@ -1,6 +1,5 @@
 package com.example.studyapp.data
 
-import android.graphics.Color
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,10 +8,9 @@ import androidx.room.TypeConverter
 
 @Entity(tableName = "vocabularies")
 data class VocabularyEntity(
-    @PrimaryKey(autoGenerate = true)
-    val vocabularyId: Int = 0,
+    @PrimaryKey(autoGenerate = true) val vocabularyId: Int = 0,
     val title: String,
-    val iconColor: Color,
+    val iconColor: Long,
     val description: String
 )
 
@@ -76,7 +74,7 @@ data class QuestionWithAnswers(
         parentColumn = "questionId",
         entityColumn = "questionId"
     )
-    val completionAnswers: List<CompletionAnswerEntity>?,
+    val completionAnswers: CompletionAnswerEntity?,
     @Relation(
         parentColumn = "questionId",
         entityColumn = "questionId"

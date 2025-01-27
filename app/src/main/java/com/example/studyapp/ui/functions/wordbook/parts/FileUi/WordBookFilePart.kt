@@ -1,4 +1,4 @@
-package com.example.studyapp.ui.functions.wordbook.parts
+package com.example.studyapp.ui.functions.wordbook.parts.FileUi
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,10 +23,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyapp.R
+import com.example.studyapp.data.VocabularyEntity
+import com.example.studyapp.ui.functions.wordbook.parts.WordBookSmallButton
 import com.example.studyapp.ui.theme.StudyAppTheme
 
 @Composable
-fun WordBookFolderPart() {
+fun WordBookFilePart(
+    vocabularyItems: List<VocabularyEntity> = listOf(),
+    onAddClick: () -> Unit = {},
+    onDelete: (VocabularyEntity) -> Unit = {}
+) {
     StudyAppTheme {
         Box(
             modifier = Modifier
@@ -40,7 +49,7 @@ fun WordBookFolderPart() {
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = "folder",
+                        text = "wordbook",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
@@ -49,14 +58,30 @@ fun WordBookFolderPart() {
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     WordBookSmallButton(
+                        text = "select",
+                        imageId = R.drawable.select,
+                        width = 90,
+                        onClick = {}
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    WordBookSmallButton(
                         text = "add",
-                        imageId = R.drawable.add
+                        imageId = R.drawable.add,
+                        onClick = onAddClick
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-                Column {
-                    WordBookFolderItem(title = "中間考査", value = 1)
-                    WordBookFolderItem(title = "期末考査", value = 1, folderColor = Color(0xffFF8E0D))
+                Spacer(modifier = Modifier.height(8.dp))
+                LazyColumn(
+                    modifier = Modifier
+                ) {
+                    items(vocabularyItems) { item ->
+                        WordBookFileItem(
+                            title = item.title,
+                            vocabulary = item,
+                            iconColor = Color(item.iconColor),
+                            onDelete = onDelete
+                        )
+                    }
                 }
             }
         }
@@ -65,6 +90,6 @@ fun WordBookFolderPart() {
 
 @Preview
 @Composable
-private fun WordBookFolderPartPreview() {
-    WordBookFolderPart()
+private fun WordBookFilePartPreview() {
+    WordBookFilePart()
 }

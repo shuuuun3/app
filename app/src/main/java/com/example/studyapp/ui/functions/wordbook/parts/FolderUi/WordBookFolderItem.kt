@@ -1,4 +1,4 @@
-package com.example.studyapp.ui.functions.wordbook.parts
+package com.example.studyapp.ui.functions.wordbook.parts.FolderUi
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -46,22 +46,23 @@ fun WordBookFolderItem(
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(folderColor),
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(30.dp)
                 )
                 Spacer(modifier = Modifier.width(20.dp))
                 Column(
                     modifier = Modifier
                 ) {
-                    Spacer(modifier = Modifier.height(22.dp))
+                    Spacer(modifier = Modifier.height(14.dp))
                     Text(
                         text = title,
-                        fontSize = 20.sp,
+                        fontSize = 18.sp,
                         color = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = "volume $value",
-                        fontSize = 12.sp,
-                        color = MaterialTheme.colorScheme.secondary
+                        fontSize = 15.sp,
+                        color = MaterialTheme.colorScheme.secondary,
+                        lineHeight = 15.sp
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))

@@ -1,7 +1,6 @@
 [versions]
 agp = "8.5.2"
-compose = "<latest-version>"
-kotlin = "1.9.0"
+kotlin = "1.9.25"
 kotlinxSerializationJson = "1.7.3"
 ksp = "1.9.0-1.0.13"
 coreKtx = "1.15.0"
@@ -9,8 +8,8 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.9.3"
-composeBom = "2024.12.01"
+activityCompose = "1.10.0"
+composeBom = "2025.01.00"
 navigationCommon = "2.8.5"
 navigationDynamicFeaturesFragment = "2.8.5"
 navigationFragment = "2.8.5"
@@ -24,7 +23,6 @@ navigationRuntimeKtx = "2.8.5"
 navigationCompose = "2.8.5"
 roomRxjava2 = "2.6.1"
 roomRxjava3 = "2.6.1"
-view = "<latest-version>"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,7 +35,6 @@ androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "ro
 androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "roomRxjava2" }
 androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomRxjava3" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomGuava" }
-compose = { module = "com.kizitonwose.calendar:compose", version.ref = "compose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -58,7 +55,6 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-view = { module = "com.kizitonwose.calendar:view", version.ref = "view" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flow
 class DatabaseWordbookRepository(private val wordBookDao: WordBookDao) :
         WordBookRepository {
             override fun getAllVocabularies(): Flow<List<VocabularyEntity>> = flow { emit(wordBookDao.getAllVocabularies()) }
-            override fun getQuestionWithAnswers(questionId: Int): Flow<QuestionWithAnswers> = flow { emit(wordBookDao.getQuestionWithAnswers(questionId))  }
+            override fun getQuestionWithAnswers(questionId: Int): Flow<List<QuestionWithAnswers>> = flow { emit(wordBookDao.getQuestionWithAnswers(questionId))  }
             override suspend fun insertVocabulary(vocabulary: VocabularyEntity) = wordBookDao.insertVocabulary(vocabulary)
             override suspend fun deleteVocabulary(vocabulary: VocabularyEntity) = wordBookDao.deleteVocabulary(vocabulary)
             override suspend fun updateVocabulary(vocabulary: VocabularyEntity) = wordBookDao.updateVocabulary(vocabulary)

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,6 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -36,8 +38,7 @@ import com.example.studyapp.ui.home.HomeDestinations
 
 @Composable
 fun HomeNavHost(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
+    navController: NavHostController
 ) {
     var selectedIndex by rememberSaveable { mutableStateOf(0) }
 
@@ -46,7 +47,7 @@ fun HomeNavHost(
             NavHost(
                 navController = navController,
                 startDestination = HomeDestinations.route,
-                modifier = modifier
+                modifier = Modifier.weight(1f)
             ) {
                 composable(route = HomeDestinations.route) {
                     HomeBody(navigateToWordBook = {
@@ -88,7 +89,7 @@ fun HomeNavHost(
                     AddStudyScreen()
                 }
             }
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(8.dp))
             Row {
                 Spacer(modifier = Modifier.weight(1f))
                 TabBar(
