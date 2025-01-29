@@ -14,15 +14,10 @@ interface WordBookDao {
     @Query("SELECT * FROM vocabularies")
     suspend fun getAllVocabularies(): List<VocabularyEntity>
 
-/*    // 単語帳とその質問を取得
-    @Transaction
-    @Query("SELECT * FROM vocabularies WHERE vocabularyId = :vocabularyId")
-    suspend fun getVocabularyWithQuestions(vocabularyId: Int): VocabularyWithQuestions*/
-
     //質問と答えを取得
     @Transaction
-    @Query("SELECT * FROM questions WHERE questionId = :id")
-    suspend fun getQuestionWithAnswers(id: Int): List<QuestionWithAnswers>
+    @Query("SELECT * FROM questions WHERE vocabularyId = :vocabularyId")
+    suspend fun getQuestionWithAnswers(vocabularyId: Int): List<QuestionWithAnswers>
 
     // 単語帳を追加
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -36,7 +31,12 @@ interface WordBookDao {
     suspend fun updateVocabulary(vocabulary: VocabularyEntity)
 
     @Insert
-    suspend fun insertQuestion(question: QuestionEntity)
+    suspend fun insertQuestion(question: QuestionEntity): Long
+
+    @Insert
+    suspend fun insertQuestionAndGetId(question: QuestionEntity): Long {
+        return insertQuestion(question)
+    }
 
     @Update
     suspend fun updateQuestion(question: QuestionEntity)

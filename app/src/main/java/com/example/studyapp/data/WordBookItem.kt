@@ -28,7 +28,7 @@ data class QuestionEntity(
     @PrimaryKey(autoGenerate = true)
     val questionId: Int = 0,
     val vocabularyId: Int,
-    val questionType: QuestionType,
+    val questionType: String,
     val questionText: String
 )
 
@@ -56,12 +56,6 @@ data class ChoiceAnswerEntity(
     val correctAnswer: String,
     val choices: List<String>
 )
-
-enum class QuestionType {
-    PAIR,
-    COMPLETION,
-    CHOICE
-}
 
 data class QuestionWithAnswers(
     @Embedded val question: QuestionEntity,

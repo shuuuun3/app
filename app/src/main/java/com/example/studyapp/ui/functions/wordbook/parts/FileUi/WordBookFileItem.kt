@@ -40,13 +40,15 @@ fun WordBookFileItem(
     vocabulary: VocabularyEntity,
     iconColor: Color = Color(0xFF0D99FF),
     onDelete: (VocabularyEntity) -> Unit = {},
+    navigateToVocabulary: (Int, String) -> Unit
 ) {
     StudyAppTheme {
         var isPopupVisible by remember { mutableStateOf(false) }
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { }
+                .clickable { navigateToVocabulary(vocabulary.vocabularyId, vocabulary.title) }
         ) {
             Row(
                 modifier = Modifier
@@ -128,7 +130,6 @@ fun WordBookFileItem(
                         }
                     }
                 }
-                Spacer(modifier = Modifier.width(18.dp))
             }
         }
     }
@@ -137,5 +138,10 @@ fun WordBookFileItem(
 @Preview(showBackground = true)
 @Composable
 private fun WordBookFileItemPreview() {
-    WordBookFileItem(title = "中間考査", value = 1, vocabulary = VocabularyEntity(vocabularyId = 1, title = "test", iconColor = 0xFF0D99FF, description = "test")) {}
+    WordBookFileItem(
+        title = "中間考査",
+        value = 1,
+        vocabulary = VocabularyEntity(vocabularyId = 1, title = "test", iconColor = 0xFF0D99FF, description = "test"),
+        navigateToVocabulary = { _, _ -> }
+    )
 }

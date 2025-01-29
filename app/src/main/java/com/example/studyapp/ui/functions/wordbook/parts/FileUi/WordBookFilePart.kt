@@ -31,7 +31,8 @@ import com.example.studyapp.ui.theme.StudyAppTheme
 fun WordBookFilePart(
     vocabularyItems: List<VocabularyEntity> = listOf(),
     onAddClick: () -> Unit = {},
-    onDelete: (VocabularyEntity) -> Unit = {}
+    onDelete: (VocabularyEntity) -> Unit = {},
+    navigateToVocabulary: (Int, String) -> Unit
 ) {
     StudyAppTheme {
         Box(
@@ -79,7 +80,8 @@ fun WordBookFilePart(
                             title = item.title,
                             vocabulary = item,
                             iconColor = Color(item.iconColor),
-                            onDelete = onDelete
+                            onDelete = onDelete,
+                            navigateToVocabulary = navigateToVocabulary
                         )
                     }
                 }
@@ -91,5 +93,7 @@ fun WordBookFilePart(
 @Preview
 @Composable
 private fun WordBookFilePartPreview() {
-    WordBookFilePart()
+    WordBookFilePart(
+        navigateToVocabulary = { _, _ -> }
+    )
 }

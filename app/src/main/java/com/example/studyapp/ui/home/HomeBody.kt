@@ -32,7 +32,8 @@ fun HomeBody(
     navigateToWordBook: () -> Unit = {},
     navigateToGraph: () -> Unit = {},
     navigateToTodo: () -> Unit = {},
-    navigateToAddStudy: () -> Unit = {}
+    navigateToAddStudy: () -> Unit = {},
+    navigateToStartStudy: () -> Unit = {}
 ) {
     Box() {
         Column(modifier = Modifier.background(Color(0xFF101010))) {
@@ -80,7 +81,25 @@ fun HomeBody(
                 )
                 Spacer(modifier = Modifier.weight(1f))
             }
-            Spacer(modifier = Modifier.padding(top = 200.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Spacer(modifier = Modifier.weight(1f))
+                ToFunctionItem(
+                    title = "Start Study",
+                    iconPath = R.drawable.home_item_startstudy,
+                    navigateToFunction = navigateToStartStudy
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                ToFunctionItem(
+                    title = "Add Study",
+                    iconPath = R.drawable.home_item_addstudy,
+                    navigateToFunction = navigateToAddStudy
+                )
+                Spacer(modifier = Modifier.weight(1f))
+            }
+            Spacer(modifier = Modifier.padding(top = 82.dp))
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment =  Alignment.CenterHorizontally

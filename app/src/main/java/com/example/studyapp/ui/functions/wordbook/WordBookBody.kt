@@ -12,7 +12,8 @@ import com.example.studyapp.ui.theme.StudyAppTheme
 fun WordBookBody(
     vocabularyItems: List<VocabularyEntity> = listOf(),
     onAddClick: () -> Unit = {},
-    onDelete: (VocabularyEntity) -> Unit = {}
+    onDelete: (VocabularyEntity) -> Unit = {},
+    navigateToVocabulary: (Int, String) -> Unit
 ) {
     StudyAppTheme {
         Column {
@@ -20,7 +21,8 @@ fun WordBookBody(
             WordBookFilePart(
                 vocabularyItems = vocabularyItems,
                 onAddClick = onAddClick,
-                onDelete = onDelete
+                onDelete = onDelete,
+                navigateToVocabulary = navigateToVocabulary
             )
         }
     }
@@ -29,5 +31,7 @@ fun WordBookBody(
 @Preview
 @Composable
 private fun WordBookBodyPreview() {
-    WordBookBody()
+    WordBookBody(
+        navigateToVocabulary = { _, _ -> }
+    )
 }

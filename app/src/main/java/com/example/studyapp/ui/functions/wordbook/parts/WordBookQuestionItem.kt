@@ -46,8 +46,11 @@ fun WordBookQuestionItem(
     StudyAppTheme {
         var isLiked by remember { mutableStateOf(true) }
         Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(10.dp, 0.dp)
+                .height(80.dp)
                 .border(width = 1.dp, color = Color(0xff383838), shape = RoundedCornerShape(10.dp))
                 .clickable { }
         ) {

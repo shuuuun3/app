@@ -42,7 +42,8 @@ object WordBookDestinations : NavigationDestination {
 
 @Composable
 fun WordBookScreen(
-    viewModel: WordBookViewModel = viewModel(factory = WordBookViewModelProvider.Factory)
+    viewModel: WordBookViewModel = viewModel(factory = WordBookViewModelProvider.Factory),
+    navigateToVocabulary: (Int, String) -> Unit
 ) {
     val wordBookUiState by viewModel.wordBookUiState.collectAsState(initial = WordBookUiState())
     val vocabularyItems = wordBookUiState.vocabularyList.collectAsState(initial = listOf()).value
@@ -53,7 +54,8 @@ fun WordBookScreen(
         onAddClick = { isReversed = !isReversed },
         onDeleteVocabulary = { vocabulary ->
             viewModel.deleteVocabulary(vocabulary)
-        }
+        },
+        navigateToVocabulary = navigateToVocabulary
     )
 
     if(isReversed) {
@@ -83,6 +85,7 @@ fun WordBookScreenContent(
     vocabularyItems: List<VocabularyEntity>,
     onAddClick: () -> Unit,
     onDeleteVocabulary: (VocabularyEntity) -> Unit = {},
+    navigateToVocabulary: (Int, String) -> Unit
 ) {
     Box(
         modifier = Modifier.padding(top = 24.dp)
@@ -92,7 +95,8 @@ fun WordBookScreenContent(
             WordBookBody(
                 vocabularyItems = vocabularyItems,
                 onAddClick = onAddClick,
-                onDelete = onDeleteVocabulary
+                onDelete = onDeleteVocabulary,
+                navigateToVocabulary = navigateToVocabulary
             )
         }
     }
@@ -125,5 +129,7 @@ private fun WordBookScreenProPreview() {
         override suspend fun updateChoiceAnswer(answer: ChoiceAnswerEntity) {}
     }
     WordBookScreen(
-        viewModel = WordBookViewModel(mockObject))
+        viewModel = WordBookViewModel(mockObject),
+        navigateToVocabulary = { _, _ -> }
+    )
 }

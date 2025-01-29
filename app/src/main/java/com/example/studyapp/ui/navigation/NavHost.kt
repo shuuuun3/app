@@ -32,6 +32,7 @@ import com.example.studyapp.ui.functions.todo.TodoDestinations
 import com.example.studyapp.ui.functions.todo.TodoScreen
 import com.example.studyapp.ui.functions.wordbook.WordBookDestinations
 import com.example.studyapp.ui.functions.wordbook.WordBookScreen
+import com.example.studyapp.ui.functions.wordbook.WordBookVocabulary
 import com.example.studyapp.ui.home.HomeBody
 import com.example.studyapp.ui.home.HomeDestinations
 
@@ -58,11 +59,27 @@ fun HomeNavHost(
                         navController.navigate(GraphDestinations.route)
                     }, navigateToAddStudy = {
                         navController.navigate(AddStudyDestinations.route)
+                    }, navigateToStartStudy = {
+
                     })
                 }
 
                 composable(route = WordBookDestinations.route) {
-                    WordBookScreen()
+                    WordBookScreen(navigateToVocabulary = { id, title ->
+                        navController.navigate("WordBookDestinations.route/$id/$title")
+                    })
+                }
+
+                composable(route = "WordBookDestinations.route/{id}/{title}") { backStackEntry ->
+                    val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: 0
+                    val title = backStackEntry.arguments?.getString("title") ?: "Unknown"
+                    WordBookVocabulary(
+                        vocabularyId = id,
+                        title = title,
+                        navigateBack = {
+                            navController.navigate(WordBookDestinations.route)
+                        }
+                    )
                 }
 
                 composable(route = TodoDestinations.route) {

@@ -86,6 +86,7 @@ fun WordBookVocabularyInput(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(60.dp)
+                            .clip(RoundedCornerShape(5))
                     )
                 }
                 Spacer(modifier = Modifier.height(10.dp))
@@ -112,6 +113,7 @@ fun WordBookVocabularyInput(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(150.dp)
+                            .clip(RoundedCornerShape(5))
                     )
                 }
                 Spacer(modifier = Modifier.height(10.dp))
@@ -147,7 +149,7 @@ fun WordBookVocabularyInput(
                         .fillMaxWidth()
                         .height(50.dp)
                         .padding(horizontal = 40.dp)
-                        .clip(RoundedCornerShape(20))
+                        .clip(RoundedCornerShape(5))
                         .background(Color(0xff6495ED))
                         .clickable {
                             viewModel.addVocabulary(
