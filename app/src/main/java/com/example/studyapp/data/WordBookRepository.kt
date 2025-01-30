@@ -8,8 +8,7 @@ interface WordBookRepository {
     suspend fun insertVocabulary(vocabulary: VocabularyEntity)
     suspend fun deleteVocabulary(vocabulary: VocabularyEntity)
     suspend fun updateVocabulary(vocabulary: VocabularyEntity)
-    suspend fun insertQuestion(question: QuestionEntity)
-    suspend fun insertQuestionAndGetId(question: QuestionEntity): Long
+    suspend fun insertQuestion(question: QuestionEntity): Int
     suspend fun updateQuestion(question: QuestionEntity)
     suspend fun insertPairAnswer(answer: PairAnswerEntity)
     suspend fun updatePairAnswer(answer: PairAnswerEntity)

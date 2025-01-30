@@ -32,12 +32,6 @@ interface WordBookDao {
 
     @Insert
     suspend fun insertQuestion(question: QuestionEntity): Long
-
-    @Insert
-    suspend fun insertQuestionAndGetId(question: QuestionEntity): Long {
-        return insertQuestion(question)
-    }
-
     @Update
     suspend fun updateQuestion(question: QuestionEntity)
 

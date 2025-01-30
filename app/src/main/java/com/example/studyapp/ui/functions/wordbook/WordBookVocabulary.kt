@@ -209,7 +209,7 @@ fun WordBookVocabulary(
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 private fun WordBookVocabularyPreview() {
     val mockRepository = object : WordBookRepository {
@@ -285,4 +285,4 @@ private fun WordBookVocabularyPreview() {
     val viewModel = WordBookViewModel(mockRepository)
 
     WordBookVocabulary(viewModel = viewModel, title = "Vocabulary Example", createdDate = "2025/01/01", vocabularyId = 1)
-}
+}*/
