@@ -439,7 +439,6 @@ fun WordBookQuestionInput(
         }
     }
 }
-d
 
 @Composable
 fun CanDeleteAnswerInput(

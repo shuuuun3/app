@@ -97,14 +97,14 @@ class WordBookViewModel(private val wordBookRepository: WordBookRepository) : Vi
                 }
                 "completion" -> {
                     val completionAnswer = CompletionAnswerEntity(
-                        questionId = question.questionId,
+                        questionId = questionId,
                         answerText = answerCompletion ?: emptyList()
                     )
                     wordBookRepository.insertCompletionAnswer(completionAnswer)
                 }
                 "choice" -> {
                     val choiceAnswer = ChoiceAnswerEntity(
-                        questionId = question.questionId,
+                        questionId = questionId,
                         correctAnswer = answerText,
                         choices = answerChoices ?: emptyList()
                     )

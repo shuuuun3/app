@@ -102,7 +102,7 @@ fun WordBookScreenContent(
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 private fun WordBookScreenProPreview() {
     val mockObject = object : WordBookRepository {
@@ -113,8 +113,8 @@ private fun WordBookScreenProPreview() {
             )
         )
 
-        override fun getQuestionWithAnswers(questionId: Int): Flow<List<QuestionWithAnswers>> {
-            return TODO("Provide the return value")
+        override fun getQuestionWithAnswers(vocabularyId: Int): Flow<List<QuestionWithAnswers>> {
+            TODO("Not yet implemented")
         }
         override suspend fun insertVocabulary(vocabulary: VocabularyEntity) {}
         override suspend fun deleteVocabulary(vocabulary: VocabularyEntity) {}
@@ -132,4 +132,4 @@ private fun WordBookScreenProPreview() {
         viewModel = WordBookViewModel(mockObject),
         navigateToVocabulary = { _, _ -> }
     )
-}
+}*/
