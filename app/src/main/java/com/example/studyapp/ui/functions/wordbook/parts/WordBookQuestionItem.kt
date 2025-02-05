@@ -17,10 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,9 +38,10 @@ fun WordBookQuestionItem(
     progressIconColor: Color = Color(0xFFD9D9D9),
     questionNumber: Int = 1,
     onDelete: (VocabularyEntity) -> Unit = {},
+    onLiked: () -> Unit = {},
+    isLiked: Boolean
 ) {
     StudyAppTheme {
-        var isLiked by remember { mutableStateOf(true) }
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -101,7 +98,7 @@ fun WordBookQuestionItem(
                         else{ ColorFilter.tint(Color(0xFF7B7B7B))},
                     modifier = Modifier
                         .size(20.dp)
-                        .clickable { isLiked = !isLiked }
+                        .clickable { onLiked() }
                 )
                 Spacer(modifier = Modifier.width(18.dp))
             }
@@ -112,5 +109,5 @@ fun WordBookQuestionItem(
 @Preview(showBackground = true)
 @Composable
 private fun WordBookQuestionItemPreview() {
-    WordBookQuestionItem(question = "あいうえおあああああああああああああああああああ", answer = "かきくけこ", questionNumber = 1)
+    WordBookQuestionItem(question = "あいうえおあああああああああああああああああああ", answer = "かきくけこ", questionNumber = 1, isLiked = true)
 }

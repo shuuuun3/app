@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.studyapp.R
-import com.example.studyapp.ui.functions.wordbook.WordBookViewModel
-import com.example.studyapp.ui.functions.wordbook.WordBookViewModelProvider
+import com.example.studyapp.data.WordBookViewModel
+import com.example.studyapp.data.WordBookViewModelProvider
 import com.example.studyapp.ui.theme.StudyAppTheme
 
 @Composable
@@ -144,30 +144,17 @@ fun WordBookVocabularyInput(
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .padding(horizontal = 40.dp)
-                        .clip(RoundedCornerShape(5))
-                        .background(Color(0xff6495ED))
-                        .clickable {
-                            viewModel.addVocabulary(
-                                title = titleText,
-                                description = descriptionText,
-                                iconColor = iconColor
-                            )
-                            onClick()
-                        }
-                ) {
-                    Text(
-                        text = "Create",
-                        fontSize = 20.sp,
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                    )
-                }
+                WordBookBigButton(
+                    text = "Create",
+                    onClick = {
+                        viewModel.addVocabulary(
+                            title = titleText,
+                            description = descriptionText,
+                            iconColor = iconColor
+                        )
+                        onClick()
+                    }
+                )
             }
         }
     }

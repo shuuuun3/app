@@ -33,14 +33,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.studyapp.R
+import com.example.studyapp.data.AppRepository
 import com.example.studyapp.data.ChoiceAnswerEntity
 import com.example.studyapp.data.CompletionAnswerEntity
 import com.example.studyapp.data.PairAnswerEntity
 import com.example.studyapp.data.QuestionEntity
 import com.example.studyapp.data.QuestionWithAnswers
+import com.example.studyapp.data.SelectedSubjects
 import com.example.studyapp.data.VocabularyEntity
-import com.example.studyapp.data.WordBookRepository
+import com.example.studyapp.data.WordBookViewModel
+import com.example.studyapp.data.WordBookViewModelProvider
 import com.example.studyapp.ui.functions.wordbook.parts.TopAppBarVocabulary
+import com.example.studyapp.ui.functions.wordbook.parts.WordBookAnswerScreen
+import com.example.studyapp.ui.functions.wordbook.parts.WordBookBigButton
 import com.example.studyapp.ui.functions.wordbook.parts.WordBookQuestionInput
 import com.example.studyapp.ui.functions.wordbook.parts.WordBookQuestionItem
 import com.example.studyapp.ui.functions.wordbook.parts.WordBookSmallButton
@@ -55,7 +60,7 @@ fun WordBookVocabulary(
     title: String,
     createdDate: String = "2025/1/1",
     vocabularyId: Int,
-    navigateBack: () -> Unit = {},
+    navigateBack: () -> Unit = {}
 ) {
     LaunchedEffect(vocabularyId) {
         viewModel.loadQuestions(vocabularyId)
@@ -65,8 +70,15 @@ fun WordBookVocabulary(
     val questionWithAnswersItems = wordBookUiState.questionWithAnswersList.collectAsState(initial = listOf()).value
 
     var isReversed by remember { mutableStateOf(false) }
+    var isAnswerShown by remember { mutableStateOf(false) }
 
     Box {
+        if (isAnswerShown) {
+            WordBookAnswerScreen(
+                vocabularyId = vocabularyId,
+                vocabularyTitle = title
+            )
+        }else
         if(isReversed) {
             BackHandler {
                 isReversed = false
@@ -89,131 +101,135 @@ fun WordBookVocabulary(
             }
         }else {
             StudyAppTheme {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.background)
-                        .padding(top = 24.dp)
-                ) {
-                    item{
-                        TopAppBarVocabulary(canNavigateBack = true, navigateBack = navigateBack)
-                        Text(
-                            text = title,
-                            fontSize = 20.sp,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 16.dp)
-                        )
-                        Text(
-                            text = createdDate,
-                            fontSize = 10.sp,
-                            color = Color(0xff7B7B7B),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 16.dp)
-                        )
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(180.dp)
-                                .border(
-                                    width = 1.dp,
-                                    color = Color(0xff383838),
-                                    shape = RoundedCornerShape(10.dp)
-                                )
-                        ) {
-                            Text(text = "Memorability")
-                        }
-                    }
-
-                    item {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 10.dp)
-                                .border(
-                                    width = 1.dp,
-                                    color = Color(0xff383838),
-                                    shape = RoundedCornerShape(10.dp)
-                                )
-                        ) {
-                            Column(
+                Column {
+                    Spacer(modifier = Modifier.height(24.dp))
+                    TopAppBarVocabulary(canNavigateBack = true, navigateBack = navigateBack)
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .background(MaterialTheme.colorScheme.background)
+                    ) {
+                        item{
+                            Text(
+                                text = title,
+                                fontSize = 20.sp,
+                                color = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier
-                                    .padding(0.dp, 16.dp)
+                                    .fillMaxWidth()
+                                    .padding(start = 16.dp)
+                            )
+                            Text(
+                                text = createdDate,
+                                fontSize = 10.sp,
+                                color = Color(0xff7B7B7B),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 16.dp)
+                            )
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(180.dp)
+                                    .border(
+                                        width = 1.dp,
+                                        color = Color(0xff383838),
+                                        shape = RoundedCornerShape(10.dp)
+                                    )
                             ) {
-                                Row {
-                                    Text(
-                                        text = "Word List",
-                                        fontSize = 16.sp,
-                                        color = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier
-                                            .padding(20.dp, 0.dp)
+                                Text(text = "Memorability")
+                            }
+                        }
+
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 10.dp)
+                                    .border(
+                                        width = 1.dp,
+                                        color = Color(0xff383838),
+                                        shape = RoundedCornerShape(10.dp)
                                     )
-                                    Spacer(modifier = Modifier.weight(1f))
-                                    WordBookSmallButton(
-                                        imageId = R.drawable.eye,
-                                        text = "answer",
-                                        width = 90
-                                    )
-                                    Spacer(modifier = Modifier.width(15.dp))
-                                    WordBookSmallButton(
-                                        imageId = R.drawable.add,
-                                        text = "add",
-                                        onClick = { isReversed = true }
-                                    )
-                                    Spacer(modifier = Modifier.width(10.dp))
-                                }
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Column {
-                                    if ( questionWithAnswersItems != null ) {
-                                        questionWithAnswersItems.forEach { item ->
-                                            val answers = when {
-                                                item.pairAnswer != null -> item.pairAnswer.answerText
-                                                item.completionAnswers != null -> item.completionAnswers.answerText.joinToString(",")
-                                                item.choiceAnswer != null -> item.choiceAnswer.correctAnswer
-                                                else -> "No answer"
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(0.dp, 16.dp)
+                                ) {
+                                    Row {
+                                        Text(
+                                            text = "Word List",
+                                            fontSize = 16.sp,
+                                            color = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier
+                                                .padding(20.dp, 0.dp)
+                                        )
+                                        Spacer(modifier = Modifier.weight(1f))
+                                        WordBookSmallButton(
+                                            imageId = R.drawable.eye,
+                                            text = "answer",
+                                            width = 90
+                                        )
+                                        Spacer(modifier = Modifier.width(15.dp))
+                                        WordBookSmallButton(
+                                            imageId = R.drawable.add,
+                                            text = "add",
+                                            onClick = { isReversed = true }
+                                        )
+                                        Spacer(modifier = Modifier.width(10.dp))
+                                    }
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Column {
+                                        var questionNumber = 1
+                                        if ( questionWithAnswersItems != null ) {
+                                            questionWithAnswersItems.forEach { item ->
+                                                val answers = when {
+                                                    item.pairAnswer != null -> item.pairAnswer.answerText
+                                                    item.completionAnswers != null -> item.completionAnswers.answerText.joinToString(",")
+                                                    item.choiceAnswer != null -> item.choiceAnswer.correctAnswer
+                                                    else -> "No answer"
+                                                }
+                                                WordBookQuestionItem(
+                                                    questionNumber = questionNumber++,
+                                                    question = item.question.questionText,
+                                                    answer = answers,
+                                                    isLiked = item.question.isLiked,
+                                                    onLiked = {
+                                                        viewModel.updateIsLiked(
+                                                            item.question.questionId,
+                                                            !item.question.isLiked
+                                                        )
+                                                    }
+                                                )
+                                                Spacer(modifier = Modifier.height(10.dp))
                                             }
-                                            WordBookQuestionItem(
-                                                question = item.question.questionText,
-                                                answer = answers
-                                            )
-                                            Spacer(modifier = Modifier.height(10.dp))
+                                        } else {
+                                            Text(text = "no question")
                                         }
-                                    } else {
-                                        Text(text = "no question")
                                     }
                                 }
                             }
                         }
                     }
-
-                    /*if (questionWithAnswersItems != null) {
-                        items(questionWithAnswersItems) { item ->
-                            val answers = when {
-                                item.pairAnswer != null -> item.pairAnswer.answerText
-                                item.completionAnswers != null -> item.completionAnswers.answerText.joinToString(",")
-                                item.choiceAnswer != null -> item.choiceAnswer.correctAnswer
-                                else -> "No answer"
-                            }
-                            WordBookQuestionItem(
-                                question = item.question.questionText,
-                                answer = answers
-                            )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    WordBookBigButton(
+                        text = "Start",
+                        onClick = {
+                            isAnswerShown = true
                         }
-                    }else item {Text(text = "no question") }*/
+                    )
                 }
             }
         }
     }
 }
 
-/*@Preview
+@Preview
 @Composable
 private fun WordBookVocabularyPreview() {
-    val mockRepository = object : WordBookRepository {
-        override fun getQuestionWithAnswers(questionId: Int): Flow<List<QuestionWithAnswers>> {
+    val mockRepository = object : AppRepository {
+        override fun getQuestionWithAnswers(vocabularyId: Int): Flow<List<QuestionWithAnswers>> {
             return MutableStateFlow(
                 listOf(
                     QuestionWithAnswers(
@@ -221,7 +237,10 @@ private fun WordBookVocabularyPreview() {
                             questionId = 1,
                             vocabularyId = 1,
                             questionType = "pair",
-                            questionText = "What is the capital of France?"
+                            questionText = "What is the capital of France?",
+                            isLiked = true,
+                            correctedNumber = 0,
+                            uncorrectedNumber = 0
                         ),
                         pairAnswer = PairAnswerEntity(questionId = 1, answerText = "Paris"),
                         completionAnswers = null,
@@ -232,7 +251,10 @@ private fun WordBookVocabularyPreview() {
                             questionId = 2,
                             vocabularyId = 1,
                             questionType = "completion",
-                            questionText = "Complete the sentence: The sky is ___?"
+                            questionText = "Complete the sentence: The sky is ___?",
+                            isLiked = true,
+                            correctedNumber = 0,
+                            uncorrectedNumber = 0
                         ),
                         pairAnswer = null,
                         completionAnswers = CompletionAnswerEntity(questionId = 2, answerText = listOf("blue", "clear")),
@@ -243,7 +265,10 @@ private fun WordBookVocabularyPreview() {
                             questionId = 3,
                             vocabularyId = 1,
                             questionType = "choice",
-                            questionText = "Choose the correct answer: 2+2 = ?"
+                            questionText = "Choose the correct answer: 2+2 = ?",
+                            isLiked = true,
+                            correctedNumber = 0,
+                            uncorrectedNumber = 0
                         ),
                         pairAnswer = null,
                         completionAnswers = null,
@@ -267,22 +292,40 @@ private fun WordBookVocabularyPreview() {
 
         override suspend fun insertVocabulary(vocabulary: VocabularyEntity) {}
         override suspend fun deleteVocabulary(vocabulary: VocabularyEntity) {}
-        override suspend fun updateVocabulary(vocabulary: VocabularyEntity) {}
-        override suspend fun insertQuestion(question: QuestionEntity) {}
-        override suspend fun insertQuestionAndGetId(question: QuestionEntity): Int {
+        override suspend fun deleteAllRelatedData(vocabularyId: Int) {
             TODO("Not yet implemented")
         }
 
+        override suspend fun updateVocabulary(vocabulary: VocabularyEntity) {}
+        override suspend fun insertQuestion(question: QuestionEntity): Int {
+            return TODO("Provide the return value")
+        }
+
         override suspend fun updateQuestion(question: QuestionEntity) {}
+        override suspend fun updateIsLiked(questionId: Int, isLiked: Boolean) {
+            TODO("Not yet implemented")
+        }
+
         override suspend fun insertPairAnswer(answer: PairAnswerEntity) {}
         override suspend fun updatePairAnswer(answer: PairAnswerEntity) {}
         override suspend fun insertCompletionAnswer(answer: CompletionAnswerEntity) {}
         override suspend fun updateCompletionAnswer(answer: CompletionAnswerEntity) {}
         override suspend fun insertChoiceAnswer(answer: ChoiceAnswerEntity) {}
         override suspend fun updateChoiceAnswer(answer: ChoiceAnswerEntity) {}
+        override suspend fun updateUncorrectedNumber(questionId: Int, uncorrectedNumber: Int) {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun updateCorrectedNumber(questionId: Int, correctNumber: Int) {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun getSelectedSubjects(): Flow<List<SelectedSubjects>> {
+            TODO("Not yet implemented")
+        }
     }
 
     val viewModel = WordBookViewModel(mockRepository)
 
     WordBookVocabulary(viewModel = viewModel, title = "Vocabulary Example", createdDate = "2025/01/01", vocabularyId = 1)
-}*/
+}

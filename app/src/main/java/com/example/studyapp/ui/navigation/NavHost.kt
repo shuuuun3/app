@@ -28,6 +28,8 @@ import com.example.studyapp.ui.functions.graph.GraphDestinations
 import com.example.studyapp.ui.functions.graph.GraphScreen
 import com.example.studyapp.ui.functions.settings.SettingsDestinations
 import com.example.studyapp.ui.functions.settings.SettingsScreen
+import com.example.studyapp.ui.functions.startstudy.StartStudyDestinations
+import com.example.studyapp.ui.functions.startstudy.StartStudyScreen
 import com.example.studyapp.ui.functions.todo.TodoDestinations
 import com.example.studyapp.ui.functions.todo.TodoScreen
 import com.example.studyapp.ui.functions.wordbook.WordBookDestinations
@@ -60,7 +62,7 @@ fun HomeNavHost(
                     }, navigateToAddStudy = {
                         navController.navigate(AddStudyDestinations.route)
                     }, navigateToStartStudy = {
-
+                        navController.navigate(StartStudyDestinations.route)
                     })
                 }
 
@@ -104,6 +106,10 @@ fun HomeNavHost(
 
                 composable(route = AddStudyDestinations.route) {
                     AddStudyScreen()
+                }
+
+                composable(route = StartStudyDestinations.route) {
+                    StartStudyScreen()
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))

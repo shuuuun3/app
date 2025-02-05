@@ -1,25 +1,39 @@
-package com.example.studyapp.ui.functions.wordbook
+package com.example.studyapp.data
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.studyapp.data.ChoiceAnswerEntity
-import com.example.studyapp.data.CompletionAnswerEntity
-import com.example.studyapp.data.PairAnswerEntity
-import com.example.studyapp.data.QuestionEntity
-import com.example.studyapp.data.QuestionWithAnswers
-import com.example.studyapp.data.VocabularyEntity
-import com.example.studyapp.data.WordBookRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 data class WordBookUiState(
     var vocabularyList: StateFlow<List<VocabularyEntity>> = MutableStateFlow(emptyList()),
-    var questionWithAnswersList: StateFlow<List<QuestionWithAnswers>> = MutableStateFlow(emptyList())
+    var questionWithAnswersList: StateFlow<List<QuestionWithAnswers>> = MutableStateFlow(emptyList()),
 )
 
-class WordBookViewModel(private val wordBookRepository: WordBookRepository) : ViewModel() {
+data class StartStudyUiState(
+    var subjectList: StateFlow<List<SelectedSubjects>> = MutableStateFlow(emptyList())
+)
+
+class StartStudyViewModel(private val appRepository: AppRepository) : ViewModel() {
+    private val _startStudyUiState = MutableStateFlow(StartStudyUiState())
+    val startStudyUiState: StateFlow<StartStudyUiState> = _startStudyUiState
+
+    init {
+        loadSubjects()
+    }
+
+    private fun loadSubjects() {
+        viewModelScope.launch {
+            appRepository.getSelectedSubjects().collect { itemList ->
+                _startStudyUiState.value = StartStudyUiState(subjectList = MutableStateFlow(itemList))
+            }
+        }
+    }
+}
+
+class WordBookViewModel(private val appRepository: AppRepository) : ViewModel() {
     private val _wordBookUiState = MutableStateFlow(WordBookUiState())
     val wordBookUiState: StateFlow<WordBookUiState> = _wordBookUiState
 
@@ -29,7 +43,7 @@ class WordBookViewModel(private val wordBookRepository: WordBookRepository) : Vi
 
     private fun loadVocabularies() {
         viewModelScope.launch {
-            wordBookRepository.getAllVocabularies().collect { itemList ->
+            appRepository.getAllVocabularies().collect { itemList ->
                 _wordBookUiState.value = WordBookUiState(vocabularyList = MutableStateFlow(itemList))
             }
         }
@@ -37,7 +51,7 @@ class WordBookViewModel(private val wordBookRepository: WordBookRepository) : Vi
 
     fun loadQuestions(vocabularyId: Int) {
         viewModelScope.launch {
-            wordBookRepository.getQuestionWithAnswers(vocabularyId).collect { itemList ->
+            appRepository.getQuestionWithAnswers(vocabularyId).collect { itemList ->
                 _wordBookUiState.value = _wordBookUiState.value.copy(
                     questionWithAnswersList = MutableStateFlow(itemList)
                 )
@@ -56,7 +70,7 @@ class WordBookViewModel(private val wordBookRepository: WordBookRepository) : Vi
             iconColor = iconColor
         )
         viewModelScope.launch {
-            wordBookRepository.insertVocabulary(vocabulary)
+            appRepository.insertVocabulary(vocabulary)
             Log.d("WordBookViewModel", "Vocabulary added: $vocabulary")
             loadVocabularies()
         }
@@ -64,7 +78,7 @@ class WordBookViewModel(private val wordBookRepository: WordBookRepository) : Vi
 
     fun deleteVocabulary(vocabulary: VocabularyEntity) {
         viewModelScope.launch {
-            wordBookRepository.deleteVocabulary(vocabulary)
+            appRepository.deleteVocabulary(vocabulary)
             Log.d("WordBookViewModel", "Vocabulary deleted: $vocabulary")
             loadVocabularies()
         }
@@ -85,7 +99,7 @@ class WordBookViewModel(private val wordBookRepository: WordBookRepository) : Vi
                 questionType = questionType
             )
 
-            val questionId = wordBookRepository.insertQuestion(question)
+            val questionId = appRepository.insertQuestion(question)
 
             when (questionType) {
                 "pair" -> {
@@ -93,14 +107,14 @@ class WordBookViewModel(private val wordBookRepository: WordBookRepository) : Vi
                         questionId = questionId,
                         answerText = answerText
                     )
-                    wordBookRepository.insertPairAnswer(pairAnswer)
+                    appRepository.insertPairAnswer(pairAnswer)
                 }
                 "completion" -> {
                     val completionAnswer = CompletionAnswerEntity(
                         questionId = questionId,
                         answerText = answerCompletion ?: emptyList()
                     )
-                    wordBookRepository.insertCompletionAnswer(completionAnswer)
+                    appRepository.insertCompletionAnswer(completionAnswer)
                 }
                 "choice" -> {
                     val choiceAnswer = ChoiceAnswerEntity(
@@ -108,11 +122,41 @@ class WordBookViewModel(private val wordBookRepository: WordBookRepository) : Vi
                         correctAnswer = answerText,
                         choices = answerChoices ?: emptyList()
                     )
-                    wordBookRepository.insertChoiceAnswer(choiceAnswer)
+                    appRepository.insertChoiceAnswer(choiceAnswer)
                 }
             }
             loadQuestions(vocabularyId)
             Log.d("WordBookViewModel", "Question added: $question")
         }
     }
+
+    fun updateIsLiked(questionId: Int, isLiked: Boolean) {
+        viewModelScope.launch {
+            appRepository.updateIsLiked(questionId, isLiked)
+            loadQuestions(wordBookUiState.value.questionWithAnswersList.value.first().question.vocabularyId)
+        }
+    }
+
+    fun updateUncorrectedNumber(questionId: Int, uncorrectedNumber: Int) {
+        viewModelScope.launch {
+            appRepository.updateUncorrectedNumber(questionId, uncorrectedNumber)
+            loadQuestions(wordBookUiState.value.questionWithAnswersList.value.first().question.vocabularyId)
+        }
+    }
+
+    fun updateCorrectedNumber(questionId: Int, correctedNumber: Int) {
+        viewModelScope.launch {
+            appRepository.updateCorrectedNumber(questionId, correctedNumber)
+            loadQuestions(wordBookUiState.value.questionWithAnswersList.value.first().question.vocabularyId)
+        }
+    }
+
+    fun deleteAllRelatedData(vocabularyId: Int) {
+        viewModelScope.launch {
+            appRepository.deleteAllRelatedData(vocabularyId)
+            Log.d("WordBookViewModel", "All related data deleted for vocabularyId: $vocabularyId")
+            loadVocabularies()
+        }
+    }
+
 }

@@ -29,12 +29,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.studyapp.R
 import com.example.studyapp.data.VocabularyEntity
+import com.example.studyapp.data.WordBookViewModel
+import com.example.studyapp.data.WordBookViewModelProvider
 import com.example.studyapp.ui.theme.StudyAppTheme
 
 @Composable
 fun WordBookFileItem(
+    viewModel: WordBookViewModel = viewModel(factory = WordBookViewModelProvider.Factory),
     title: String,
     value: Int = 0,
     vocabulary: VocabularyEntity,
@@ -122,7 +126,7 @@ fun WordBookFileItem(
                                             .padding(8.dp)
                                             .clickable {
                                                 isPopupVisible = false
-                                                onDelete(vocabulary)
+                                                viewModel.deleteAllRelatedData(vocabulary.vocabularyId)
                                             }
                                     )
                                 }

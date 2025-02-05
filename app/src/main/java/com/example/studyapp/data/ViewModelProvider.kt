@@ -1,4 +1,4 @@
-package com.example.studyapp.ui.functions.wordbook
+package com.example.studyapp.data
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
@@ -10,6 +10,14 @@ object WordBookViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
             WordBookViewModel(StudyAppApplication().appContainer.wordBookContainer.wordBookRepository)
+        }
+    }
+}
+
+object StartStudyViewModelProvider {
+    val Factory = viewModelFactory {
+        initializer {
+            StartStudyViewModel(StudyAppApplication().appContainer.wordBookContainer.wordBookRepository)
         }
     }
 }

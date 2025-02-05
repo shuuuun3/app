@@ -38,8 +38,8 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.studyapp.R
-import com.example.studyapp.ui.functions.wordbook.WordBookViewModel
-import com.example.studyapp.ui.functions.wordbook.WordBookViewModelProvider
+import com.example.studyapp.data.WordBookViewModel
+import com.example.studyapp.data.WordBookViewModelProvider
 import com.example.studyapp.ui.theme.StudyAppTheme
 
 @Composable
@@ -78,7 +78,7 @@ fun WordBookQuestionInput(
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
                     modifier = Modifier
                         .size(34.dp)
-                        .clickable {  }
+                        .clickable { onClick() }
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
@@ -397,7 +397,7 @@ fun WordBookQuestionInput(
                                             }
                                         },
                                         onInputChanged = { newText ->
-                                            answerChoices.toMutableList().apply {
+                                            answerChoices = answerChoices.toMutableList().apply {
                                                 if (i <= this.size) this[i - 1] = newText
                                                 else add(newText)
                                             }

@@ -18,22 +18,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.studyapp.R
-import com.example.studyapp.data.ChoiceAnswerEntity
-import com.example.studyapp.data.CompletionAnswerEntity
-import com.example.studyapp.data.PairAnswerEntity
-import com.example.studyapp.data.QuestionEntity
-import com.example.studyapp.data.QuestionWithAnswers
 import com.example.studyapp.data.VocabularyEntity
-import com.example.studyapp.data.WordBookRepository
+import com.example.studyapp.data.WordBookUiState
+import com.example.studyapp.data.WordBookViewModel
+import com.example.studyapp.data.WordBookViewModelProvider
 import com.example.studyapp.ui.functions.wordbook.parts.TopAppBarDefaults
 import com.example.studyapp.ui.functions.wordbook.parts.WordBookVocabularyInput
 import com.example.studyapp.ui.navigation.NavigationDestination
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 
 object WordBookDestinations : NavigationDestination {
     override val route = "wordbook"

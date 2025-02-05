@@ -13,12 +13,12 @@ class AppContainerImpl(private val applicationContext: Context) : AppContainer {
 }
 
 interface WordBookContainer {
-    val wordBookRepository: WordBookRepository
+    val wordBookRepository: AppRepository
 }
 
 class WordBookAppContainer(private val context: Context) : WordBookContainer {
-    override val wordBookRepository: WordBookRepository by lazy {
-        DatabaseWordbookRepository(WordBookDatabase.getDatabase(context).wordBookDao)
+    override val wordBookRepository: AppRepository by lazy {
+        DatabaseAppRepository(AppDatabase.getDatabase(context).appDao)
     }
 
 }
