@@ -39,7 +39,7 @@ import com.example.studyapp.data.CompletionAnswerEntity
 import com.example.studyapp.data.PairAnswerEntity
 import com.example.studyapp.data.QuestionEntity
 import com.example.studyapp.data.QuestionWithAnswers
-import com.example.studyapp.data.SelectedSubjects
+import com.example.studyapp.data.Subjects
 import com.example.studyapp.data.VocabularyEntity
 import com.example.studyapp.data.WordBookViewModel
 import com.example.studyapp.data.WordBookViewModelProvider
@@ -320,7 +320,11 @@ private fun WordBookVocabularyPreview() {
             TODO("Not yet implemented")
         }
 
-        override suspend fun getSelectedSubjects(): Flow<List<SelectedSubjects>> {
+        override suspend fun getSelectedSubjects(): Flow<List<Subjects>> {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun getSubjectById(subjectId: Int): Subjects {
             TODO("Not yet implemented")
         }
     }

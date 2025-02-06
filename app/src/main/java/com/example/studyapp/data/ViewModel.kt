@@ -3,6 +3,7 @@ package com.example.studyapp.data
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -13,7 +14,7 @@ data class WordBookUiState(
 )
 
 data class StartStudyUiState(
-    var subjectList: StateFlow<List<SelectedSubjects>> = MutableStateFlow(emptyList())
+    var subjectList: StateFlow<List<Subjects>> = MutableStateFlow(emptyList())
 )
 
 class StartStudyViewModel(private val appRepository: AppRepository) : ViewModel() {
@@ -29,6 +30,12 @@ class StartStudyViewModel(private val appRepository: AppRepository) : ViewModel(
             appRepository.getSelectedSubjects().collect { itemList ->
                 _startStudyUiState.value = StartStudyUiState(subjectList = MutableStateFlow(itemList))
             }
+        }
+    }
+
+    fun getSubjectById(subjectId: Int) {
+        viewModelScope.launch {
+            appRepository.getSubjectById(subjectId)
         }
     }
 }

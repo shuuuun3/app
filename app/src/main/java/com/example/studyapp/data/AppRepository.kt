@@ -20,5 +20,6 @@ interface AppRepository {
     suspend fun updateChoiceAnswer(answer: ChoiceAnswerEntity)
     suspend fun updateUncorrectedNumber(questionId: Int, uncorrectedNumber: Int)
     suspend fun updateCorrectedNumber(questionId: Int, correctNumber: Int)
-    suspend fun getSelectedSubjects(): Flow<List<SelectedSubjects>>
+    suspend fun getSelectedSubjects(): Flow<List<Subjects>>
+    suspend fun getSubjectById(subjectId: Int): Subjects
 }

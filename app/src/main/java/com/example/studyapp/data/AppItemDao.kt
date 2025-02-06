@@ -1,5 +1,6 @@
 package com.example.studyapp.data
 
+import android.adservices.adid.AdId
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -134,12 +135,15 @@ interface AppDao {
     @Query("UPDATE questions SET correctedNumber = :correctedNumber WHERE questionId = :questionId")
     suspend fun updateCorrectedNumber(questionId: Int, correctedNumber: Int)
 
-    @Query("SELECT * FROM selected_subjects")
-    suspend fun getSelectedSubjects(): List<SelectedSubjects>
+    @Query("SELECT * FROM subjects")
+    suspend fun getSelectedSubjects(): List<Subjects>
+
+    @Query("SELECT * FROM subjects WHERE subjectId = :subjectId")
+    suspend fun getSubjectById(subjectId: Int): Subjects
 
     @Insert
-    suspend fun insertSelectedSubject(selectedSubject: SelectedSubjects)
+    suspend fun insertSelectedSubject(selectedSubject: Subjects)
 
     @Insert
-    suspend fun insertAllSelectedSubjects(selectedSubjects: List<SelectedSubjects>)
+    suspend fun insertAllSelectedSubjects(selectedSubjects: List<Subjects>)
 }

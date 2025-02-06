@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [VocabularyEntity::class, QuestionEntity::class, PairAnswerEntity::class, CompletionAnswerEntity::class, ChoiceAnswerEntity::class, SelectedSubjects::class], version = 1, exportSchema = false)
+@Database(entities = [VocabularyEntity::class, QuestionEntity::class, PairAnswerEntity::class, CompletionAnswerEntity::class, ChoiceAnswerEntity::class, Subjects::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract val appDao: AppDao
@@ -26,7 +26,12 @@ abstract class AppDatabase : RoomDatabase() {
                     context,
                     AppDatabase::class.java,
                     "app_database"
-                ).build().also { Instance = it }
+                )
+                    .addCallback(
+                        PrepopulateCallback()
+                    )
+                    .build()
+                    .also { Instance = it }
             }
         }
     }
@@ -37,8 +42,8 @@ abstract class AppDatabase : RoomDatabase() {
             CoroutineScope(Dispatchers.IO).launch {
                 Instance?.appDao?.insertAllSelectedSubjects(
                     listOf(
-                        SelectedSubjects(1, "math", R.drawable.function, 0xff8AB4F8, 0xff394557),
-                        SelectedSubjects(2, "english", R.drawable.earth, 0xff9C92F7, 0xff313142)
+                        Subjects(1, "math", R.drawable.function, 0xff8AB4F8, 0xff394557),
+                        Subjects(2, "english", R.drawable.earth, 0xff9C92F7, 0xff313142)
                     )
                 )
             }

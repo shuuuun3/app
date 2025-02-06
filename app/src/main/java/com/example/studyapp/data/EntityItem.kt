@@ -83,9 +83,9 @@ data class QuestionWithAnswers(
     val choiceAnswer: ChoiceAnswerEntity?
 )
 
-@Entity(tableName = "selected_subjects")
-data class SelectedSubjects(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+@Entity(tableName = "subjects")
+data class Subjects(
+    @PrimaryKey(autoGenerate = true) val subjectId: Int = 0,
     val name:String,
     val imageId: Int,
     val color: Long,

@@ -25,5 +25,6 @@ class DatabaseAppRepository(private val AppDao: AppDao) :
             override suspend fun updateChoiceAnswer(answer: ChoiceAnswerEntity) = AppDao.updateChoiceAnswer(answer)
             override suspend fun updateUncorrectedNumber(questionId: Int, uncorrectedNumber: Int) = AppDao.updateUncorrectedNumber(questionId, uncorrectedNumber)
             override suspend fun updateCorrectedNumber(questionId: Int, correctNumber: Int) = AppDao.updateCorrectedNumber(questionId, correctNumber)
-            override suspend fun getSelectedSubjects(): Flow<List<SelectedSubjects>> = flow { emit(AppDao.getSelectedSubjects()) }
+            override suspend fun getSelectedSubjects(): Flow<List<Subjects>> = flow { emit(AppDao.getSelectedSubjects()) }
+            override suspend fun getSubjectById(subjectId: Int) = (AppDao.getSubjectById(subjectId))
         }
