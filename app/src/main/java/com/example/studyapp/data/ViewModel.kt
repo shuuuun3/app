@@ -117,8 +117,7 @@ class StartStudyViewModel(private val appRepository: AppRepository) : ViewModel(
         subjectId: Int? = null,
         title: String? = null,
         description: String? = null,
-        studiedTime: Int? = null,
-        studyDate: LocalDate? = null
+        studiedTime: Int? = null
     ) {
         // 現在のStudyRecordを取得する（例: IDで検索）
         val studyRecord = getStudyRecordById(studyRecordId) // ここは適宜実装

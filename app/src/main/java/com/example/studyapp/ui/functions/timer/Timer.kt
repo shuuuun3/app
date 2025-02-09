@@ -321,7 +321,7 @@ fun TimerScreen(
             }
             val minutes = remainingTime.value / 60
             val seconds = remainingTime.value % 60
-            var showPopup = remember { mutableStateOf(false) }
+            val showPopup = remember { mutableStateOf(false) }
 
             subjectItem.value?.let { subject ->
                 StudyAppTheme {
@@ -1247,7 +1247,7 @@ private fun TimerScreenPreview() {
 
         override suspend fun updateVocabulary(vocabulary: VocabularyEntity) {}
         override suspend fun insertQuestion(question: QuestionEntity): Int {
-            return TODO("Provide the return value")
+            TODO("Provide the return value")
         }
 
         override suspend fun updateQuestion(question: QuestionEntity) {}

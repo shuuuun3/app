@@ -36,7 +36,7 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    private class PrepopulateCallback : RoomDatabase.Callback() {
+    private class PrepopulateCallback : Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             CoroutineScope(Dispatchers.IO).launch {

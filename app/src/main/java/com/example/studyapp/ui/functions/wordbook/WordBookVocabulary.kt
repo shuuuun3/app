@@ -300,7 +300,7 @@ private fun WordBookVocabularyPreview() {
 
         override suspend fun updateVocabulary(vocabulary: VocabularyEntity) {}
         override suspend fun insertQuestion(question: QuestionEntity): Int {
-            return TODO("Provide the return value")
+            TODO("Provide the return value")
         }
 
         override suspend fun updateQuestion(question: QuestionEntity) {}

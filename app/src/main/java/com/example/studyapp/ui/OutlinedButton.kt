@@ -39,8 +39,7 @@ fun OutlinedButton(
     buttonHeight: Int = 68,
     textSize: Int = 32,
     color: Color = Color(0xFF63A3DF),
-    onClick: () -> Unit = {},
-    onClickComposable: @Composable () -> Unit = {}
+    onClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -54,7 +53,6 @@ fun OutlinedButton(
             .clip(shape = RoundedCornerShape(100))
             .clickable {
                 onClick()
-                onClickComposable
             },
         contentAlignment = Alignment.Center
     ) {
