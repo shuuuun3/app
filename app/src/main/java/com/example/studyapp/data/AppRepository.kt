@@ -22,4 +22,10 @@ interface AppRepository {
     suspend fun updateCorrectedNumber(questionId: Int, correctNumber: Int)
     suspend fun getSelectedSubjects(): Flow<List<Subjects>>
     suspend fun getSubjectById(subjectId: Int): Subjects
+    suspend fun getStudyTimes(): Flow<List<StudyTimes>>
+    suspend fun insertStudyTime(studyTime: StudyTimes)
+    suspend fun getAllStudyRecords(): Flow<List<StudyRecords>>
+    suspend fun getStudyRecordById(studyRecordId: Int): StudyRecords
+    suspend fun insertStudyRecord(studyRecord: StudyRecords): Int
+    suspend fun updateStudyRecord(studyRecord: StudyRecords)
 }

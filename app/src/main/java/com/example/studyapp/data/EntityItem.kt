@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import androidx.room.TypeConverter
+import java.time.LocalDate
 
 @Entity(tableName = "vocabularies")
 data class VocabularyEntity(
@@ -92,6 +93,22 @@ data class Subjects(
     val backgroundColor: Long
 )
 
+@Entity(tableName = "study_times")
+data class StudyTimes(
+    @PrimaryKey(autoGenerate = true) val studyTimeId: Int = 0,
+    val studyTime: Int
+)
+
+@Entity(tableName = "study_records")
+data class StudyRecords(
+    @PrimaryKey(autoGenerate = true) val studyRecordId: Int = 0,
+    val subjectId: Int?,
+    val title: String?,
+    val description: String?,
+    val studiedTime: Int?,
+    val studyDate: LocalDate
+)
+
 class Converters {
     @TypeConverter
     fun fromStringList(value: List<String>): String {
@@ -101,5 +118,16 @@ class Converters {
     @TypeConverter
     fun toStringList(value: String): List<String> {
         return value.split(",")
+    }
+
+    @TypeConverter
+    fun fromLocalDate(date: LocalDate): Long {
+        val epochDay = date.toEpochDay()
+        return epochDay // エポック日（1970/1/1 からの日数）
+    }
+
+    @TypeConverter
+    fun toLocalDate(epochDay: Long): LocalDate {
+        return LocalDate.ofEpochDay(epochDay)
     }
 }

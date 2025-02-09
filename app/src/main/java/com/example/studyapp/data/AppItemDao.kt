@@ -1,6 +1,5 @@
 package com.example.studyapp.data
 
-import android.adservices.adid.AdId
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -146,4 +145,25 @@ interface AppDao {
 
     @Insert
     suspend fun insertAllSelectedSubjects(selectedSubjects: List<Subjects>)
+
+    @Query("SELECT * FROM study_times")
+    suspend fun getStudyTimes(): List<StudyTimes>
+
+    @Insert
+    suspend fun insertStudyTime(studyTime: StudyTimes)
+
+    @Insert
+    suspend fun insertAllStudyTimes(studyTimes: List<StudyTimes>)
+
+    @Query("SELECT * FROM study_records")
+    suspend fun getAllStudyRecords(): List<StudyRecords>
+
+    @Query("SELECT * FROM study_records WHERE studyRecordId = :studyRecordId")
+    suspend fun getStudyRecordById(studyRecordId: Int): StudyRecords
+
+    @Insert
+    suspend fun insertStudyRecord(studyRecord: StudyRecords): Long
+
+    @Update
+    suspend fun updateStudyRecord(studyRecord: StudyRecords)
 }

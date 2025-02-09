@@ -9,5 +9,6 @@
     <string name="entry_graph">Graph遷移</string>
     <string name="entry_addStudy">AddStudy遷移</string>
     <string name="entry_startStudy">StartStudy遷移</string>
+    <string name="entry_timer">Timer遷移</string>
     <string name="wordbook_home">Home</string>
 </resources>

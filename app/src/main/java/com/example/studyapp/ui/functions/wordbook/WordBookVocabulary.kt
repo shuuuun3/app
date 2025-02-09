@@ -39,6 +39,8 @@ import com.example.studyapp.data.CompletionAnswerEntity
 import com.example.studyapp.data.PairAnswerEntity
 import com.example.studyapp.data.QuestionEntity
 import com.example.studyapp.data.QuestionWithAnswers
+import com.example.studyapp.data.StudyRecords
+import com.example.studyapp.data.StudyTimes
 import com.example.studyapp.data.Subjects
 import com.example.studyapp.data.VocabularyEntity
 import com.example.studyapp.data.WordBookViewModel
@@ -325,6 +327,30 @@ private fun WordBookVocabularyPreview() {
         }
 
         override suspend fun getSubjectById(subjectId: Int): Subjects {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun getStudyTimes(): Flow<List<StudyTimes>> {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun insertStudyTime(studyTime: StudyTimes) {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun getAllStudyRecords(): Flow<List<StudyRecords>> {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun getStudyRecordById(studyRecordId: Int): StudyRecords {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun insertStudyRecord(studyRecord: StudyRecords): Int {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun updateStudyRecord(studyRecord: StudyRecords) {
             TODO("Not yet implemented")
         }
     }

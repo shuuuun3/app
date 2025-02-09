@@ -1,5 +1,6 @@
 package com.example.studyapp.ui.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +31,7 @@ import com.example.studyapp.ui.functions.settings.SettingsDestinations
 import com.example.studyapp.ui.functions.settings.SettingsScreen
 import com.example.studyapp.ui.functions.startstudy.StartStudyDestinations
 import com.example.studyapp.ui.functions.startstudy.StartStudyScreen
+import com.example.studyapp.ui.functions.timer.TimerScreen
 import com.example.studyapp.ui.functions.todo.TodoDestinations
 import com.example.studyapp.ui.functions.todo.TodoScreen
 import com.example.studyapp.ui.functions.wordbook.WordBookDestinations
@@ -63,7 +65,32 @@ fun HomeNavHost(
                         navController.navigate(AddStudyDestinations.route)
                     }, navigateToStartStudy = {
                         navController.navigate(StartStudyDestinations.route)
+                    }, navigateToPomodoroTimer = { type, studyRecordId ->
+                        if (studyRecordId > 0) {
+                            navController.navigate("TimerDestinations.route/$type/$studyRecordId")
+                        } else {
+                            // 無効な ID の場合、画面遷移を避ける
+                            Log.e("Navigation", "Invalid studyRecordId: $studyRecordId")
+                        }
                     })
+                }
+
+                composable(route = "TimerDestinations.route/{type}/{studyRecordId}") { backStackEntry ->
+                    val type = backStackEntry.arguments?.getString("type") ?: "pomodoroTimer"
+                    val studyRecordId = backStackEntry.arguments?.getString("studyRecordId")?.toIntOrNull() ?: 0
+                    if (studyRecordId > 0) {
+                        TimerScreen(
+                            timerType = type,
+                            subjectId = null,
+                            studyRecordId = studyRecordId,
+                            navigateToHome = {
+                                navController.navigate(HomeDestinations.route)
+                            }
+                        )
+                    } else {
+                        // 無効な studyRecordId の場合のエラーハンドリング
+                        Log.e("TimerScreen", "Invalid studyRecordId: $studyRecordId")
+                    }
                 }
 
                 composable(route = WordBookDestinations.route) {
@@ -80,6 +107,28 @@ fun HomeNavHost(
                         title = title,
                         navigateBack = {
                             navController.navigate(WordBookDestinations.route)
+                        }
+                    )
+                }
+
+                composable(route = StartStudyDestinations.route) {
+                    StartStudyScreen(navigateToTimer = { type, subjectId, timeValueInMinutes, studyRecordId ->
+                        navController.navigate("TimerDestinations.route/$type/$subjectId/$timeValueInMinutes/$studyRecordId")
+                    })
+                }
+
+                composable(route = "TimerDestinations.route/{type}/{subjectId}/{timeValueInMinutes}/{studyRecordId}") { backStackEntry ->
+                    val type = backStackEntry.arguments?.getString("type") ?: "startStudy"
+                    val subjectId = backStackEntry.arguments?.getString("subjectId")?.toIntOrNull() ?: 0
+                    val timeValueInMinutes = backStackEntry.arguments?.getString("timeValueInMinutes")?.toIntOrNull() ?: 0
+                    val studyRecordId = backStackEntry.arguments?.getString("studyRecordId")?.toIntOrNull() ?: 0
+                    TimerScreen(
+                        timerType = type,
+                        subjectId = subjectId,
+                        timerValueInMinutes = timeValueInMinutes,
+                        studyRecordId = studyRecordId,
+                        navigateToHome = {
+                            navController.navigate(HomeDestinations.route)
                         }
                     )
                 }
@@ -106,10 +155,6 @@ fun HomeNavHost(
 
                 composable(route = AddStudyDestinations.route) {
                     AddStudyScreen()
-                }
-
-                composable(route = StartStudyDestinations.route) {
-                    StartStudyScreen()
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
