@@ -44,7 +44,7 @@ import com.example.studyapp.ui.functions.startstudy.parts.TitleInput
 import com.example.studyapp.ui.navigation.NavigationDestination
 import com.example.studyapp.ui.theme.StudyAppTheme
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 object StartStudyDestinations: NavigationDestination {
     override val route = "startStudy"
@@ -184,7 +184,9 @@ fun StartStudyBody(
                                     title = title,
                                     description = description,
                                     studiedTime = null,
-                                    studyDate = LocalDate.now()
+                                    startStudyDate = LocalDateTime.now(),
+                                    finishStudyDate = null,
+                                    afterMemo = null
                                 )
                                 // studyRecordId を渡してO画面遷移
                                 navigateToTimer("startStudy", selectedSubject.subjectId, selectedTime, studyRecordId)

@@ -47,8 +47,17 @@ interface AppDao {
     }
 
     @Transaction
+    suspend fun deleteQuestionAndAnswers(questionId: Int) {
+        deleteAnswersByQuestionId(questionId)
+        deleteQuestionByQuestionId(questionId)
+    }
+
+    @Transaction
     @Query("DELETE FROM questions WHERE vocabularyId = :vocabularyId")
     suspend fun deleteQuestionsByVocabularyId(vocabularyId: Int)
+
+    @Query("DELETE FROM questions WHERE questionId = :questionId")
+    suspend fun deleteQuestionByQuestionId(questionId: Int)
 
     @Transaction
     suspend fun deleteAnswersByQuestionId(questionId: Int) {

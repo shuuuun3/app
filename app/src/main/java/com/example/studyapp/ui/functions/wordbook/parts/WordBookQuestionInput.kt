@@ -52,7 +52,7 @@ fun WordBookQuestionInput(
         var questionText: String by remember { mutableStateOf("") }
         var questionType: String by remember { mutableStateOf("pair") }
         var answerText: String by remember { mutableStateOf("") }
-        var answerCompletion: List<String> by remember { mutableStateOf(emptyList()) }
+        val answerCompletion: List<String> by remember { mutableStateOf(emptyList()) }
         var answerChoices: List<String> by remember { mutableStateOf(emptyList()) }
 
         var isPopupVisible by remember { mutableStateOf(false) }
@@ -121,7 +121,7 @@ fun WordBookQuestionInput(
                                     .fillMaxSize()
                                     .padding(15.dp, 0.dp)
                             ){
-                                var type: String = when (questionType) {
+                                val type: String = when (questionType) {
                                     "pair" -> "Description"
                                     "completion" -> "Completion"
                                     "choice" -> "Selection"
@@ -419,15 +419,21 @@ fun WordBookQuestionInput(
                     .clip(RoundedCornerShape(30))
                     .background(Color(0xff6495ED))
                     .clickable {
-                        viewModel.addQuestion(
-                            vocabularyId = vocabularyId,
-                            questionText = questionText,
-                            questionType = questionType,
-                            answerText = answerText,
-                            answerCompletion = answerCompletion,
-                            answerChoices = answerChoices
-                        )
-                        onClick()
+                        val onClickFunction = {
+                            viewModel.addQuestion(
+                                vocabularyId = vocabularyId,
+                                questionText = questionText,
+                                questionType = questionType,
+                                answerText = answerText,
+                                answerCompletion = answerCompletion,
+                                answerChoices = answerChoices
+                            )
+                            onClick()
+                        }
+                        when (questionType) {
+                            "pair" -> if (questionText != "" && answerText != "") onClickFunction()
+                            "completion", "choice" -> if (questionText != "") onClickFunction()
+                        }
                     }
             ) {
                 Text(

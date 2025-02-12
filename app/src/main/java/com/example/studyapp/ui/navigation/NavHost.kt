@@ -1,3 +1,5 @@
+@file:Suppress("NAME_SHADOWING")
+
 package com.example.studyapp.ui.navigation
 
 import android.util.Log
@@ -31,6 +33,7 @@ import com.example.studyapp.ui.functions.settings.SettingsDestinations
 import com.example.studyapp.ui.functions.settings.SettingsScreen
 import com.example.studyapp.ui.functions.startstudy.StartStudyDestinations
 import com.example.studyapp.ui.functions.startstudy.StartStudyScreen
+import com.example.studyapp.ui.functions.timer.TimerFinishScreen
 import com.example.studyapp.ui.functions.timer.TimerScreen
 import com.example.studyapp.ui.functions.todo.TodoDestinations
 import com.example.studyapp.ui.functions.todo.TodoScreen
@@ -83,14 +86,28 @@ fun HomeNavHost(
                             timerType = type,
                             subjectId = null,
                             studyRecordId = studyRecordId,
-                            navigateToHome = {
-                                navController.navigate(HomeDestinations.route)
+                            navigateToFinishScreen = { type, subjectId, studyRecordId ->
+                                navController.navigate("FinishScreenDestinations.route/$type/$subjectId/$studyRecordId")
                             }
                         )
                     } else {
                         // 無効な studyRecordId の場合のエラーハンドリング
                         Log.e("TimerScreen", "Invalid studyRecordId: $studyRecordId")
                     }
+                }
+
+                composable(route = "FinishScreenDestinations.route/{type}/{subjectId}/{studyRecordId}") { backStackEntry ->
+                    val type = backStackEntry.arguments?.getString("type") ?: "pomodoroTimer"
+                    val subjectId = backStackEntry.arguments?.getString("subjectId")?.toIntOrNull()
+                    val studyRecordId = backStackEntry.arguments?.getString("studyRecordId")?.toIntOrNull() ?: 0
+                    TimerFinishScreen(
+                        timerType = type,
+                        subjectId = subjectId,
+                        studyRecordId = studyRecordId,
+                        navigateToHome = {
+                            navController.navigate(HomeDestinations.route)
+                        }
+                    )
                 }
 
                 composable(route = WordBookDestinations.route) {
@@ -125,10 +142,10 @@ fun HomeNavHost(
                     TimerScreen(
                         timerType = type,
                         subjectId = subjectId,
-                        timerValueInMinutes = timeValueInMinutes,
                         studyRecordId = studyRecordId,
-                        navigateToHome = {
-                            navController.navigate(HomeDestinations.route)
+                        timerValueInMinutes = timeValueInMinutes,
+                        navigateToFinishScreen = { type, subjectId, studyRecordId ->
+                            navController.navigate("FinishScreenDestinations.route/$type/$subjectId/$studyRecordId")
                         }
                     )
                 }

@@ -8,6 +8,7 @@ interface AppRepository {
     suspend fun insertVocabulary(vocabulary: VocabularyEntity)
     suspend fun deleteVocabulary(vocabulary: VocabularyEntity)
     suspend fun deleteAllRelatedData(vocabularyId: Int)
+    suspend fun deleteQuestionAndAnswers(questionId: Int)
     suspend fun updateVocabulary(vocabulary: VocabularyEntity)
     suspend fun insertQuestion(question: QuestionEntity): Int
     suspend fun updateQuestion(question: QuestionEntity)

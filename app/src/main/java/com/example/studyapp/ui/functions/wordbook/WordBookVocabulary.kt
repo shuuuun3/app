@@ -192,18 +192,29 @@ fun WordBookVocabulary(
                                                     item.choiceAnswer != null -> item.choiceAnswer.correctAnswer
                                                     else -> "No answer"
                                                 }
-                                                WordBookQuestionItem(
-                                                    questionNumber = questionNumber++,
-                                                    question = item.question.questionText,
-                                                    answer = answers,
-                                                    isLiked = item.question.isLiked,
-                                                    onLiked = {
-                                                        viewModel.updateIsLiked(
-                                                            item.question.questionId,
-                                                            !item.question.isLiked
-                                                        )
-                                                    }
-                                                )
+                                                Box(
+                                                    modifier = Modifier
+                                                        .pointerInput(Unit) {
+                                                            detectTapGestures(
+                                                                onLongPress = {
+                                                                    viewModel.deleteQuestion(item.question.questionId) // 長押し完了後に削除を実行
+                                                                }
+                                                            )
+                                                        },
+                                                ) {
+                                                    WordBookQuestionItem(
+                                                        questionNumber = questionNumber++,
+                                                        question = item.question.questionText,
+                                                        answer = answers,
+                                                        isLiked = item.question.isLiked,
+                                                        onLiked = {
+                                                            viewModel.updateIsLiked(
+                                                                item.question.questionId,
+                                                                !item.question.isLiked
+                                                            )
+                                                        }
+                                                    )
+                                                }
                                                 Spacer(modifier = Modifier.height(10.dp))
                                             }
                                         } else {
@@ -218,7 +229,9 @@ fun WordBookVocabulary(
                     WordBookBigButton(
                         text = "Start",
                         onClick = {
-                            isAnswerShown = true
+                            if (questionWithAnswersItems.isNotEmpty()) {
+                                isAnswerShown = true
+                            }
                         }
                     )
                 }
@@ -295,6 +308,10 @@ private fun WordBookVocabularyPreview() {
         override suspend fun insertVocabulary(vocabulary: VocabularyEntity) {}
         override suspend fun deleteVocabulary(vocabulary: VocabularyEntity) {}
         override suspend fun deleteAllRelatedData(vocabularyId: Int) {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun deleteQuestionAndAnswers(questionId: Int) {
             TODO("Not yet implemented")
         }
 

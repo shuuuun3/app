@@ -10,6 +10,7 @@ class DatabaseAppRepository(private val AppDao: AppDao) :
         override suspend fun insertVocabulary(vocabulary: VocabularyEntity) = AppDao.insertVocabulary(vocabulary)
         override suspend fun deleteVocabulary(vocabulary: VocabularyEntity) = AppDao.deleteVocabulary(vocabulary)
         override suspend fun deleteAllRelatedData(vocabularyId: Int) = AppDao.deleteAllRelatedData(vocabularyId)
+        override suspend fun deleteQuestionAndAnswers(questionId: Int) = AppDao.deleteQuestionAndAnswers(questionId)
         override suspend fun updateVocabulary(vocabulary: VocabularyEntity) = AppDao.updateVocabulary(vocabulary)
         override suspend fun insertQuestion(question: QuestionEntity): Int {
                 val questionId: Long = AppDao.insertQuestion(question)

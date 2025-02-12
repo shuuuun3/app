@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class WordBookUiState(
     var vocabularyList: StateFlow<List<VocabularyEntity>> = MutableStateFlow(emptyList()),
@@ -86,7 +86,7 @@ class StartStudyViewModel(private val appRepository: AppRepository) : ViewModel(
         }
     }
 
-    private suspend fun getStudyRecordById(studyRecordId: Int): StudyRecords {
+    suspend fun getStudyRecordById(studyRecordId: Int): StudyRecords {
         return appRepository.getStudyRecordById(studyRecordId)
     }
 
@@ -95,7 +95,9 @@ class StartStudyViewModel(private val appRepository: AppRepository) : ViewModel(
         title: String?,
         description: String?,
         studiedTime: Int?,
-        studyDate: LocalDate
+        startStudyDate: LocalDateTime,
+        finishStudyDate: LocalDateTime?,
+        afterMemo: String?,
     ): Int {
         val studyRecord = StudyRecords(
             studyRecordId = 0,
@@ -103,7 +105,9 @@ class StartStudyViewModel(private val appRepository: AppRepository) : ViewModel(
             title = title,
             description = description,
             studiedTime = studiedTime,
-            studyDate = studyDate
+            startStudyDate = startStudyDate,
+            finishStudyDate = finishStudyDate,
+            afterMemo = afterMemo
         )
 
         val studyRecordId = appRepository.insertStudyRecord(studyRecord)
@@ -117,7 +121,10 @@ class StartStudyViewModel(private val appRepository: AppRepository) : ViewModel(
         subjectId: Int? = null,
         title: String? = null,
         description: String? = null,
-        studiedTime: Int? = null
+        studiedTime: Int? = null,
+        startStudyDate: LocalDateTime? = null,
+        finishStudyDate: LocalDateTime? = null,
+        afterMemo: String? = null
     ) {
         // 現在のStudyRecordを取得する（例: IDで検索）
         val studyRecord = getStudyRecordById(studyRecordId) // ここは適宜実装
@@ -128,7 +135,9 @@ class StartStudyViewModel(private val appRepository: AppRepository) : ViewModel(
             title = title ?: studyRecord.title,
             description = description ?: studyRecord.description,
             studiedTime = studiedTime ?: studyRecord.studiedTime,
-            studyDate = studyRecord.studyDate
+            startStudyDate = startStudyDate ?: studyRecord.startStudyDate,
+            finishStudyDate = finishStudyDate ?: studyRecord.finishStudyDate,
+            afterMemo = afterMemo ?: studyRecord.afterMemo
         )
 
         appRepository.updateStudyRecord(updatedStudyRecord)
@@ -259,6 +268,14 @@ class WordBookViewModel(private val appRepository: AppRepository) : ViewModel() 
             appRepository.deleteAllRelatedData(vocabularyId)
             Log.d("WordBookViewModel", "All related data deleted for vocabularyId: $vocabularyId")
             loadVocabularies()
+        }
+    }
+
+    fun deleteQuestion(questionId: Int) {
+        viewModelScope.launch {
+            appRepository.deleteQuestionAndAnswers(questionId)
+            Log.d("WordBookViewModel", "Question deleted: $questionId")
+            loadQuestions(wordBookUiState.value.questionWithAnswersList.value.first().question.vocabularyId)
         }
     }
 

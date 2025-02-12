@@ -5,7 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import androidx.room.TypeConverter
-import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 @Entity(tableName = "vocabularies")
 data class VocabularyEntity(
@@ -106,7 +107,9 @@ data class StudyRecords(
     val title: String?,
     val description: String?,
     val studiedTime: Int?,
-    val studyDate: LocalDate
+    val startStudyDate: LocalDateTime,
+    val finishStudyDate: LocalDateTime?,
+    val afterMemo: String?,
 )
 
 class Converters {
@@ -120,14 +123,15 @@ class Converters {
         return value.split(",")
     }
 
+    // LocalDateTime -> Long (エポック秒)
     @TypeConverter
-    fun fromLocalDate(date: LocalDate): Long {
-        val epochDay = date.toEpochDay()
-        return epochDay // エポック日（1970/1/1 からの日数）
+    fun fromLocalDateTime(dateTime: LocalDateTime): Long {
+        return dateTime.toEpochSecond(ZoneOffset.UTC) // UTCでエポック秒に変換
     }
 
+    // Long (エポック秒) -> LocalDateTime
     @TypeConverter
-    fun toLocalDate(epochDay: Long): LocalDate {
-        return LocalDate.ofEpochDay(epochDay)
+    fun toLocalDateTime(epochSecond: Long): LocalDateTime {
+        return LocalDateTime.ofEpochSecond(epochSecond, 0, ZoneOffset.UTC) // エポック秒からLocalDateTimeを生成
     }
 }

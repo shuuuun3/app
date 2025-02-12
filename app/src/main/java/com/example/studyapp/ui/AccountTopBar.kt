@@ -35,7 +35,7 @@ import com.example.studyapp.R
 fun AccountTopBar(
     text: String,
     showHello: Boolean,
-    userName: String
+    userName: String?
 ) {
     Box(
         modifier = Modifier

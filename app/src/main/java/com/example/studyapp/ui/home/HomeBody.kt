@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -23,9 +21,10 @@ import com.example.studyapp.data.StartStudyViewModel
 import com.example.studyapp.data.StartStudyViewModelProvider
 import com.example.studyapp.ui.AccountTopBar
 import com.example.studyapp.ui.OutlinedButton
+import com.example.studyapp.ui.functions.calendar.WeeklyCalendar
 import com.example.studyapp.ui.navigation.NavigationDestination
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 object HomeDestinations : NavigationDestination {
     override val route = "home"
@@ -52,11 +51,8 @@ fun HomeBody(
                 showHello = true,
                 userName = userName
             )
-            Text(
-                text = "週カレンダー追加予定地",
-                modifier = Modifier
-                    .padding(32.dp)
-            )
+            WeeklyCalendar()
+            Spacer(modifier = Modifier.height(20.dp))
             //functionsBlock↓
             Row() {
                 Spacer(modifier = Modifier.weight(1f))
@@ -109,7 +105,7 @@ fun HomeBody(
                 )
                 Spacer(modifier = Modifier.weight(1f))
             }
-            Spacer(modifier = Modifier.padding(top = 82.dp))
+            Spacer(modifier = Modifier.weight(1f))
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment =  Alignment.CenterHorizontally
@@ -123,11 +119,13 @@ fun HomeBody(
                                 title = null,
                                 description = null,
                                 studiedTime = null,
-                                studyDate = LocalDate.now()
+                                startStudyDate = LocalDateTime.now(),
+                                finishStudyDate = null,
+                                afterMemo = null
                             )
                             if (studyRecordId > 0) {
                                 // studyRecordId が有効な場合にのみ遷移
-                                navigateToPomodoroTimer("pomodoroTimer", studyRecordId)
+                                navigateToPomodoroTimer("homePomodoroTimer", studyRecordId)
                             } else {
                                 // エラーハンドリング（例えば、エラーメッセージの表示）
                                 Log.d("StudyRecord", "Invalid studyRecordId: $studyRecordId")

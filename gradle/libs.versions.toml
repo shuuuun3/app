@@ -1,5 +1,7 @@
 [versions]
 agp = "8.5.2"
+eyesAppiumJava = "4.0.15"
+javaClient = "8.3.0"
 kotlin = "1.9.25"
 kotlinxSerializationJson = "1.7.3"
 ksp = "1.9.0-1.0.13"
@@ -24,6 +26,7 @@ navigationCompose = "2.8.6"
 roomRxjava2 = "2.6.1"
 roomRxjava3 = "2.6.1"
 composeTesting = "1.0.0-alpha01"
+seleniumJava = "4.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

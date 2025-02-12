@@ -59,6 +59,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -71,7 +72,7 @@ fun TimerScreen(
     studyRecordId: Int,
     timerValueInMinutes: Int = 10,
     breakTimeInMinutes: Int = 5,
-    navigateToHome: () -> Unit = {}
+    navigateToFinishScreen: (String, Int?, Int) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -89,7 +90,7 @@ fun TimerScreen(
     val dayOfWeek = LocalDate.now().dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
 
     when (timerType) {
-        "pomodoroTimer" -> {
+        "homePomodoroTimer" -> {
             // ★ ポモドーロ・モード（ポモドーロテクニック）
             // 初回は 25 分の勉強タイマーを自動起動し、
             // 25 分経過で自動的にポップアップ表示と 5 分のブレイクタイマー開始、
@@ -231,10 +232,11 @@ fun TimerScreen(
                                 coroutineScope.launch {
                                     viewModel.updateStudyRecord(
                                         studyRecordId = studyRecordId,
-                                        studiedTime = pomodoroTotalTime.toInt()
+                                        studiedTime = pomodoroTotalTime.toInt(),
+                                        finishStudyDate = LocalDateTime.now()
                                     )
                                 }
-                                navigateToHome()
+                                navigateToFinishScreen(timerType, subjectId, studyRecordId)
                             }
                         )
                     }
@@ -490,10 +492,11 @@ fun TimerScreen(
                                         val updatedStudiedTime = totalTimeInSeconds.toInt()
                                         viewModel.updateStudyRecord(
                                             studyRecordId = studyRecordId,
-                                            studiedTime = updatedStudiedTime
+                                            studiedTime = updatedStudiedTime,
+                                            finishStudyDate = LocalDateTime.now()
                                         )
                                     }
-                                    navigateToHome()
+                                    navigateToFinishScreen(timerType, subjectId, studyRecordId)
                                 }
                             )
                         }
@@ -1245,6 +1248,10 @@ private fun TimerScreenPreview() {
             TODO("Not yet implemented")
         }
 
+        override suspend fun deleteQuestionAndAnswers(questionId: Int) {
+            TODO("Not yet implemented")
+        }
+
         override suspend fun updateVocabulary(vocabulary: VocabularyEntity) {}
         override suspend fun insertQuestion(question: QuestionEntity): Int {
             TODO("Provide the return value")
@@ -1315,6 +1322,7 @@ private fun TimerScreenPreview() {
         viewModel = viewModel,
         timerType = "StartStudy",
         subjectId = 1,
-        studyRecordId = 1
+        studyRecordId = 1,
+        navigateToFinishScreen = { _, _, _ -> }
     )
 }
