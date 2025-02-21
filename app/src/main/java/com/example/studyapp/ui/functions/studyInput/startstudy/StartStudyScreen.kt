@@ -1,4 +1,4 @@
-package com.example.studyapp.ui.functions.startstudy
+package com.example.studyapp.ui.functions.studyInput.startstudy
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -38,9 +38,9 @@ import com.example.studyapp.data.StartStudyViewModelProvider
 import com.example.studyapp.data.StudyTimes
 import com.example.studyapp.data.Subjects
 import com.example.studyapp.ui.OutlinedButton
-import com.example.studyapp.ui.functions.startstudy.parts.SelectedSubjectDropdown
-import com.example.studyapp.ui.functions.startstudy.parts.TimeSelector
-import com.example.studyapp.ui.functions.startstudy.parts.TitleInput
+import com.example.studyapp.ui.functions.studyInput.parts.SelectedSubjectDropdown
+import com.example.studyapp.ui.functions.studyInput.parts.TimeSelector
+import com.example.studyapp.ui.functions.studyInput.parts.TitleInput
 import com.example.studyapp.ui.navigation.NavigationDestination
 import com.example.studyapp.ui.theme.StudyAppTheme
 import kotlinx.coroutines.launch

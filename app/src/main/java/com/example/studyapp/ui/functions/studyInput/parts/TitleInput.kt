@@ -1,4 +1,4 @@
-package com.example.studyapp.ui.functions.startstudy.parts
+package com.example.studyapp.ui.functions.studyInput.parts
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -1,4 +1,4 @@
-package com.example.studyapp.ui.functions.startstudy.parts
+package com.example.studyapp.ui.functions.studyInput.parts
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
