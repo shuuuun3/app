@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -98,11 +99,7 @@ fun HomeBody(
                     navigateToFunction = navigateToStartStudy
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                ToFunctionItem(
-                    title = "Add Study",
-                    iconPath = R.drawable.home_item_addstudy,
-                    navigateToFunction = navigateToAddStudy
-                )
+                Spacer(modifier = Modifier.width(184.dp))
                 Spacer(modifier = Modifier.weight(1f))
             }
             Spacer(modifier = Modifier.weight(1f))

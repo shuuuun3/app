@@ -62,7 +62,8 @@ fun WordBookVocabulary(
     title: String,
     createdDate: String = "2025/1/1",
     vocabularyId: Int,
-    navigateBack: () -> Unit = {}
+    navigateBack: () -> Unit = {},
+    navigateToHome: () -> Unit = {}
 ) {
     LaunchedEffect(vocabularyId) {
         viewModel.loadQuestions(vocabularyId)
@@ -78,7 +79,8 @@ fun WordBookVocabulary(
         if (isAnswerShown) {
             WordBookAnswerScreen(
                 vocabularyId = vocabularyId,
-                vocabularyTitle = title
+                vocabularyTitle = title,
+                navigateToHome = navigateToHome
             )
         }else
         if(isReversed) {

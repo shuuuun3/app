@@ -44,8 +44,8 @@ abstract class AppDatabase : RoomDatabase() {
                     listOf(
                         Subjects(1, "math", R.drawable.function, 0xff8AB4F8, 0xff394557),
                         Subjects(2, "english", R.drawable.earth, 0xff9C92F7, 0xff313142),
-                        Subjects(3, "japanese", R.drawable.earth, 0xff9C92F7, 0xff313142),
-                        Subjects(4, "science", R.drawable.earth, 0xff9C92F7, 0xff313142),
+                        Subjects(3, "japanese", R.drawable.earth, 0xffE7BDA3, 0xff423831),
+                        Subjects(4, "science", R.drawable.science, 0xffA6E7A3, 0xff314233),
                     )
                 )
                 Instance?.appDao?.insertAllStudyTimes(

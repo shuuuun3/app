@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,6 +38,7 @@ import com.example.studyapp.R
 import com.example.studyapp.data.QuestionWithAnswers
 import com.example.studyapp.data.WordBookViewModel
 import com.example.studyapp.data.WordBookViewModelProvider
+import com.example.studyapp.ui.OutlinedButton
 import com.example.studyapp.ui.theme.StudyAppTheme
 import kotlinx.coroutines.delay
 
@@ -45,6 +47,7 @@ fun WordBookAnswerScreen(
     viewModel: WordBookViewModel = viewModel(factory = WordBookViewModelProvider.Factory),
     vocabularyId: Int,
     vocabularyTitle: String = "Vocabulary Title",
+    navigateToHome: () -> Unit = {}
 ) {
     LaunchedEffect(vocabularyId) {
         viewModel.loadQuestions(vocabularyId)
@@ -81,8 +84,26 @@ fun WordBookAnswerScreen(
             allQuestionValue = questionWithAnswersItems.size
         )
     } ?: run {
-        // currentQuestionがnullの場合に表示するエラー処理（例えば「質問がありません」など）
-        Text(text = "No questions available.")
+        // 解答終了時の画面
+        StudyAppTheme {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Spacer(modifier = Modifier.height(60.dp))
+                Text(
+                    text = "Finish!",
+                    fontSize = 40.sp,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Medium
+                )
+                Spacer(modifier = Modifier.height(60.dp))
+                Text(text = "正答率や苦手問題の表示")
+                Spacer(modifier = Modifier.weight(1f))
+                OutlinedButton(text = "Go to Home", onClick = navigateToHome)
+                Spacer(modifier = Modifier.height(30.dp))
+            }
+        }
     }
 }
 

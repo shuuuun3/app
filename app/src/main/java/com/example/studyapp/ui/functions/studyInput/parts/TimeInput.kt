@@ -1,8 +1,7 @@
 package com.example.studyapp.ui.functions.studyInput.parts
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -18,14 +17,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.xr.compose.subspace.SpatialBox
 import com.example.studyapp.ui.theme.StudyAppTheme
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun TimeInput(
-    inputtedTime: LocalDateTime
+    inputtedTime: LocalDateTime,
+    onMonthClicked: () -> Unit = {},
+    onTimeClicked: () -> Unit = {}
 ) {
     val formattedMonth = inputtedTime.format(DateTimeFormatter.ofPattern("M/d"))
     val formattedTime = inputtedTime.format(DateTimeFormatter.ofPattern("HH : mm"))
@@ -42,13 +42,17 @@ fun TimeInput(
             Text(
                 text = formattedMonth,
                 fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .clickable { onMonthClicked() }
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = formattedTime,
                 fontSize = 32.sp,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .clickable { onTimeClicked() }
             )
         }
     }

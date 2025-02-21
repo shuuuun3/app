@@ -1,5 +1,7 @@
 package com.example.studyapp.ui.functions.studyInput.addstudy
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,7 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -30,7 +31,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,20 +52,17 @@ import com.example.studyapp.data.StudyRecords
 import com.example.studyapp.data.StudyTimes
 import com.example.studyapp.data.Subjects
 import com.example.studyapp.data.VocabularyEntity
-import com.example.studyapp.data.WordBookViewModel
 import com.example.studyapp.ui.OutlinedButton
 import com.example.studyapp.ui.functions.studyInput.parts.SelectedSubjectDropdown
 import com.example.studyapp.ui.functions.studyInput.parts.TimeInput
-import com.example.studyapp.ui.functions.studyInput.parts.TimeSelector
 import com.example.studyapp.ui.functions.studyInput.parts.TitleInput
-import com.example.studyapp.ui.functions.studyInput.startstudy.StartStudyBody
 import com.example.studyapp.ui.navigation.NavigationDestination
 import com.example.studyapp.ui.theme.StudyAppTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import java.time.Duration
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 object AddStudyDestinations : NavigationDestination {
     override val route = "addStudy"
@@ -71,7 +71,8 @@ object AddStudyDestinations : NavigationDestination {
 
 @Composable
 fun AddStudyScreen(
-    viewModel: StartStudyViewModel = viewModel(factory = StartStudyViewModelProvider.Factory)
+    viewModel: StartStudyViewModel = viewModel(factory = StartStudyViewModelProvider.Factory),
+    navigateToHome: () -> Unit = {}
 ) {
     val StartStudyUiState by viewModel.startStudyUiState.collectAsState()
 
@@ -89,7 +90,8 @@ fun AddStudyScreen(
                 .fillMaxWidth()
         ) {
             AddStudyBody(
-                subjectItems = subjectItems
+                subjectItems = subjectItems,
+                navigateToHome = navigateToHome
             )
         }
     }
@@ -98,7 +100,8 @@ fun AddStudyScreen(
 @Composable
 fun AddStudyBody(
     viewModel: StartStudyViewModel = viewModel(factory = StartStudyViewModelProvider.Factory),
-    subjectItems: List<Subjects> = listOf()
+    subjectItems: List<Subjects> = listOf(),
+    navigateToHome: () -> Unit = {}
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -109,6 +112,10 @@ fun AddStudyBody(
     var startTime by remember { mutableStateOf(LocalDateTime.now()) }
     var endTime by remember { mutableStateOf(LocalDateTime.now()) }
     var description by remember { mutableStateOf("") }
+
+    var showDatePicker by remember { mutableStateOf(false) }
+    var showTimePicker by remember { mutableStateOf(false) }
+    var isStartTime by remember { mutableStateOf(true) }
 
     LaunchedEffect(selectedSubject) {
         if (subjectItems.isNotEmpty() && selectedSubject !in subjectItems) {
@@ -154,12 +161,37 @@ fun AddStudyBody(
                 Spacer(modifier = Modifier.height(30.dp))
                 Row (
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.width(364.dp)
                 ) {
-                    TimeInput(inputtedTime = startTime)
+                    TimeInput(
+                        inputtedTime = startTime,
+                        onMonthClicked = {
+                            isStartTime = true
+                            showDatePicker = true
+                        },
+                        onTimeClicked = {
+                            isStartTime = true
+                            showTimePicker = true
+                        }
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
                     Image(
-                        painter = painterResource(R.drawable.arrow_right),
-                        contentDescription = null
+                        painter = painterResource(R.drawable.arrow_right_long),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color(0xff484848)),
+                        modifier = Modifier.size(30.dp)
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    TimeInput(
+                        inputtedTime = endTime,
+                        onMonthClicked = {
+                            isStartTime = false
+                            showDatePicker = true
+                        },
+                        onTimeClicked = {
+                            isStartTime = false
+                            showTimePicker = true
+                        }
                     )
                 }
                 Spacer(modifier = Modifier.height(30.dp))
@@ -190,18 +222,24 @@ fun AddStudyBody(
                 Spacer(modifier = Modifier.height(30.dp))
                 OutlinedButton(
                     text = "Save",
+                    color = Color(0xffDF9763),
+                    buttonWidth = 175,
                     onClick = {
                         if (title != "") {
-                            coroutineScope.launch {
-                                viewModel.addStudyRecord(
-                                    subjectId = selectedSubject.subjectId,
-                                    title = title,
-                                    description = description,
-                                    studiedTime = null,
-                                    startStudyDate = LocalDateTime.now(),
-                                    finishStudyDate = null,
-                                    afterMemo = null
-                                )
+                            val studiedTime = Duration.between(startTime, endTime).seconds
+                            if (studiedTime >= 0) {
+                                coroutineScope.launch {
+                                    viewModel.addStudyRecord(
+                                        subjectId = selectedSubject.subjectId,
+                                        title = title,
+                                        description = null,
+                                        studiedTime = studiedTime.toInt(),
+                                        startStudyDate = startTime,
+                                        finishStudyDate = endTime,
+                                        afterMemo = description
+                                    )
+                                }
+                                navigateToHome()
                             }
                         } else{
                             Log.d("StartStudyBody", "Title is empty")
@@ -210,10 +248,40 @@ fun AddStudyBody(
                 )
             }
         }
+
+        if (showDatePicker) {
+            val context = LocalContext.current
+            DatePickerDialog(
+                context,
+                { _, year, month, day ->
+                    val newDate = startTime.withYear(year).withMonth(month + 1).withDayOfMonth(day)
+                    if (isStartTime) startTime = newDate else endTime = newDate
+                    showDatePicker = false
+                },
+                startTime.year,
+                startTime.monthValue - 1,
+                startTime.dayOfMonth
+            ).show()
+        }
+
+        if (showTimePicker) {
+            val context = LocalContext.current
+            TimePickerDialog(
+                context,
+                { _, hour, minute ->
+                    val newTime = startTime.withHour(hour).withMinute(minute)
+                    if (isStartTime) startTime = newTime else endTime = newTime
+                    showTimePicker = false
+                },
+                startTime.hour,
+                startTime.minute,
+                true
+            ).show()
+        }
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun AddStudyScreenPreview() {
     val mockRepository = object : AppRepository {
@@ -313,7 +381,14 @@ private fun AddStudyScreenPreview() {
         }
 
         override suspend fun getSelectedSubjects(): Flow<List<Subjects>> {
-            TODO("Not yet implemented")
+            return MutableStateFlow(
+                listOf(
+                    Subjects(1, "math", R.drawable.function, 0xff8AB4F8, 0xff394557),
+                    Subjects(2, "english", R.drawable.function, 0xff8AB4F8, 0xff394557),
+                    Subjects(3, "japanese", R.drawable.function, 0xff8AB4F8, 0xff394557),
+                    Subjects(4, "science", R.drawable.function, 0xff8AB4F8, 0xff394557)
+                )
+            )
         }
 
         override suspend fun getSubjectById(subjectId: Int): Subjects {
@@ -347,5 +422,5 @@ private fun AddStudyScreenPreview() {
 
     val viewModel = StartStudyViewModel(mockRepository)
 
-    AddStudyScreen(viewModel = viewModel)
+    AddStudyBody(viewModel = viewModel)
 }

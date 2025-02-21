@@ -23,14 +23,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.studyapp.ui.TabBar
 import com.example.studyapp.ui.functions.account.AccountDestinations
 import com.example.studyapp.ui.functions.account.AccountScreen
-import com.example.studyapp.ui.functions.studyInput.addstudy.AddStudyDestinations
-import com.example.studyapp.ui.functions.studyInput.addstudy.AddStudyScreen
 import com.example.studyapp.ui.functions.calendar.CalendarDestinations
 import com.example.studyapp.ui.functions.calendar.CalendarScreen
 import com.example.studyapp.ui.functions.graph.GraphDestinations
 import com.example.studyapp.ui.functions.graph.GraphScreen
 import com.example.studyapp.ui.functions.settings.SettingsDestinations
 import com.example.studyapp.ui.functions.settings.SettingsScreen
+import com.example.studyapp.ui.functions.studyInput.addstudy.AddStudyDestinations
+import com.example.studyapp.ui.functions.studyInput.addstudy.AddStudyScreen
 import com.example.studyapp.ui.functions.studyInput.startstudy.StartStudyDestinations
 import com.example.studyapp.ui.functions.studyInput.startstudy.StartStudyScreen
 import com.example.studyapp.ui.functions.timer.TimerFinishScreen
@@ -124,6 +124,9 @@ fun HomeNavHost(
                         title = title,
                         navigateBack = {
                             navController.navigate(WordBookDestinations.route)
+                        },
+                        navigateToHome = {
+                            navController.navigate(HomeDestinations.route)
                         }
                     )
                 }
@@ -171,7 +174,9 @@ fun HomeNavHost(
                 }
 
                 composable(route = AddStudyDestinations.route) {
-                    AddStudyScreen()
+                    AddStudyScreen(navigateToHome = {
+                        navController.navigate(HomeDestinations.route)
+                    })
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))

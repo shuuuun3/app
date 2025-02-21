@@ -3,8 +3,13 @@ package com.example.studyapp.data
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -24,6 +29,12 @@ data class StartStudyUiState(
 class StartStudyViewModel(private val appRepository: AppRepository) : ViewModel() {
     private val _startStudyUiState = MutableStateFlow(StartStudyUiState())
     val startStudyUiState: StateFlow<StartStudyUiState> = _startStudyUiState
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val totalStudyTime: StateFlow<Int> = _startStudyUiState
+        .flatMapLatest { it.studyRecordsList }  // StateFlow<List<StudyRecords>> を取得
+        .map { records -> records.sumOf { it.studiedTime ?: 0 } } // null 対応
+        .stateIn(viewModelScope, SharingStarted.Lazily, 0)
 
     init {
         loadSubjects()
